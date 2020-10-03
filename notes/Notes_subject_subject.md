@@ -17,6 +17,8 @@ Notes and code about Django-Portfolio
     - [Create a View](#create-a-view)
     - [Create a HTML template](#create-a-html-template)
     - [Register URLs](#register-urls)
+  - [Add a base template](#add-a-base-template)
+  - [Add styling to app](#add-styling-to-app)
   - [Additional Information](#additional-information)
     - [Screenshots](#screenshots)
     - [Links](#links)
@@ -201,6 +203,73 @@ urlpatterns = [path("", views.hello_world, name="hello_world")]
 
 - Restart the server and visit localhost:8000 to see the HTML template just created.
 - We have created our first Django app and hooked it up to our project.
+
+## Add a base template
+
+We will create a base template to add to each app of the project.
+
+- In the console, run the command `mkdir personal_portfolio/templates/`
+- Create the file `personal_portfolio/templates/base.html`
+
+We create this additional `templates` directory to store HTML templates that will be used in every Django app in the project. Each Django project can consist of multiple apps that handle separated logic, and each app contains its own templates directory to store HTML templates related to the application.
+
+This application structure works well for the back end logic, but we want our entire site to look consistent on the front end. Instead of having to import Bootstrap styles into every app, we can create a template or set of templates that are shared by all the apps. As long as Django knows to look for templates in this new, shared directory it can save a lot of repeated styles.
+
+Whenever we want to create templates or import scripts that are intended to be used in all Django apps inside a project, we can add them to this project-level directory and extend them inside our app templates.
+
+- Inside `personal_portfolio/templates/base.html` add the following
+
+```html
+{% block page_content %}{% endblock %}
+```
+
+- Inside `hello_world/templates/hello_world.html` add the following
+
+```html
+{% extends "base.html" %}
+
+{% block page_content %}
+<h1>Hello, World!</h1>
+{% endblock %}
+```
+
+What happens here is that any HTML inside the page_content block gets added inside the same block in `base.html`.
+
+This will then show up in every page that extends `base.html`.
+
+We now need to tell our our Django project that `base.html` exists. The default settings register template directories in each app, but not in the project directory itself.
+
+In `personal_portfolio/settings.py`, update `TEMPLATES` list
+
+```python
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [
+            "personal_portfolio/templates/"
+        ],  # register template directories inthe project directory itself
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+            ]
+        },
+    }
+]
+```
+
+## Add styling to app
+
+We are going to add `Bootstrap`, or any classless CSS to the entire project.
+
+Add the stylesheet inside `base.html`'s `page_content` block.
+
+Visiting `localhost:8000`, should show that the page has been formatted with slightly different styling.
+
+
 
 ## Additional Information
 
