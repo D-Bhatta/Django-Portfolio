@@ -1,3 +1,7 @@
 from django.shortcuts import render
 
-# Create your views here.
+# Hello World application
+
+
+def hello_world(request):
+    return render(request, "hello_world.html", {})

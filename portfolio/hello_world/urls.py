@@ -1,4 +1,4 @@
-"""personal_portfolio URL Configuration
+"""hello_world URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.1/topics/http/urls/
@@ -13,11 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import include, path
+from django.urls import path
+from hello_world import views
 
-urlpatterns = [
-    path("admin/", admin.site.urls),
-    # Hello World app
-    path("hello", include("hello_world.urls")),
-]
+urlpatterns = [path("", views.hello_world, name="hello_world")]
