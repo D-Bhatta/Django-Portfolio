@@ -206,12 +206,12 @@ urlpatterns = [path("", views.hello_world, name="hello_world")]
 
 ## Add a base template
 
-We will create a base template to add to each app of the project.
+Create a base template to add to each app of the project.
 
 - In the console, run the command `mkdir personal_portfolio/templates/`
 - Create the file `personal_portfolio/templates/base.html`
 
-We create this additional `templates` directory to store HTML templates that will be used in every Django app in the project. Each Django project can consist of multiple apps that handle separated logic, and each app contains its own templates directory to store HTML templates related to the application.
+Create this additional `templates` directory to store HTML templates that will be used in every Django app in the project. Each Django project can consist of multiple apps that handle separated logic, and each app contains its own templates directory to store HTML templates related to the application.
 
 This application structure works well for the back end logic, but we want our entire site to look consistent on the front end. Instead of having to import Bootstrap styles into every app, we can create a template or set of templates that are shared by all the apps. As long as Django knows to look for templates in this new, shared directory it can save a lot of repeated styles.
 
@@ -263,13 +263,11 @@ TEMPLATES = [
 
 ## Add styling to app
 
-We are going to add `Bootstrap`, or any classless CSS to the entire project.
+Add `Bootstrap`, or any classless CSS to the entire project.
 
 Add the stylesheet inside `base.html`'s `page_content` block.
 
 Visiting `localhost:8000`, should show that the page has been formatted with slightly different styling.
-
-
 
 ## Additional Information
 
