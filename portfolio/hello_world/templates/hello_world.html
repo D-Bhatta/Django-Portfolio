@@ -1,1 +1,42 @@
 {% extends "base.html" %}
+
+{% block page_content %}
+{{ block.super }}
+
+<input type="password" id="apiIn">
+<button onclick="getSecret()"></button>
+<script>
+    async function showImage(uri){
+        // create an element to display
+        let imageElement = document.createElement("img");
+        imageElement.src=uri;
+
+        console.log(imageElement);
+
+        // display the element
+        document.body.appendChild(imageElement);
+    }
+    // get the image url
+    async function getData(secret){
+        let api_uri = 'https://api.nasa.gov/planetary/apod?api_key=';
+
+        let request_uri = api_uri.concat(secret);
+        const response = await fetch(request_uri, {
+            method: 'GET',
+    });
+    return response.json();
+    }
+    function getSecret(){
+        let apiInput = document.getElementById("apiIn");
+        // call the promise function on page load
+        let secret = apiInput.value;
+        getData(secret).then(data => {
+        console.table(data.url);
+        // display the image
+        showImage(data.url);
+    });
+    }
+
+</script>
+
+{% endblock %}
