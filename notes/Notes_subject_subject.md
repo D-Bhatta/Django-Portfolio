@@ -281,7 +281,7 @@ Visiting `localhost:8000`, should show that the page has been formatted with sli
 
 ## To delete an app
 
-- Delete the hello_world application
+- Delete the `hello_world` application
 
 ### Delete the directory
 
