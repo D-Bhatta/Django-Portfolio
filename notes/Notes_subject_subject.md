@@ -19,6 +19,16 @@ Notes and code about Django-Portfolio
     - [Register URLs](#register-urls)
   - [Add a base template](#add-a-base-template)
   - [Add styling to app](#add-styling-to-app)
+  - [To delete an app](#to-delete-an-app)
+    - [Delete the directory](#delete-the-directory)
+    - [Remove it's name from installed apps](#remove-its-name-from-installed-apps)
+    - [Remove url paths to it](#remove-url-paths-to-it)
+  - [Projects App: Models](#projects-app-models)
+  - [Create one model in models.py](#create-one-model-in-modelspy)
+    - [Migrate](#migrate)
+      - [Create the migrations file](#create-the-migrations-file)
+      - [Migrate the app](#migrate-the-app)
+    - [Create instances of class using Django shell](#create-instances-of-class-using-django-shell)
   - [Additional Information](#additional-information)
     - [Screenshots](#screenshots)
     - [Links](#links)
@@ -268,6 +278,165 @@ Add `Bootstrap`, or any classless CSS to the entire project.
 Add the stylesheet inside `base.html`'s `page_content` block.
 
 Visiting `localhost:8000`, should show that the page has been formatted with slightly different styling.
+
+## To delete an app
+
+- Delete the hello_world application
+
+### Delete the directory
+
+- Delete the `hello_world` directory
+
+### Remove it's name from installed apps
+
+- Remove the line `"hello_world"`, from `INSTALLED_APPS` in `settings.py`
+
+```python
+INSTALLED_APPS = [
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "hello_world",  # Delete this line
+]
+```
+
+### Remove url paths to it
+
+- Remove the URL path created in `personal_portfolio/urls.py`
+
+```python
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("", include("hello_world.urls")),  # Delete this line
+]
+```
+
+## Projects App: Models
+
+Django has a built-in **Object Relational Mapper (ORM)**.
+
+An **ORM is a program that allows you to create classes that correspond to database tables**. Class attributes correspond to columns, and instances of the classes correspond to rows in the database. So, instead of learning a whole new language to create our database and its tables, we can just write some Python classes.
+
+## Create one model in models.py
+
+The model you’ll create will be called `Project` and will have the following fields:
+
+- **title** will be a short string field to hold the name of your project.
+- **description** will be a larger string field to hold a longer piece of text.
+- **technology** will be a string field, but its contents will be limited to a select number of choices.
+- **image** will be an image field that holds the file path where the image is stored.
+
+To create this model, we’ll create a new class in `models.py` and add the following in our fields
+
+```python
+from django.db import models
+
+
+class Project(models.Model):
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    technology = models.CharField(max_length=20)
+    image = models.FilePathField(path="/img")
+```
+
+Django models come with many built-in model field types. We’ve only used three in this model. `CharField` is used for short strings and specifies a maximum length.
+
+`TextField` is similar to `CharField` but can be used for longer form text as it doesn’t have a maximum length limit. Finally, `FilePathField` also holds a string but must point to a file path name.
+
+Now that we’ve created our `Project` class, we need Django to create the database. By default, the Django ORM creates databases in SQLite, but you can use other databases that use the SQL language, such as PostgreSQL or MySQL, with the Django ORM.
+
+### Migrate
+
+To start the process of creating our database, we need to create a migration. A migration is a file containing a Migration class with rules that tell Django what changes need to be made to the database.
+
+#### Create the migrations file
+
+To create the migration, type the `makemigrations` command in the console, making sure you’re in the `rp-portfolio` directory
+
+```bash
+$ python manage.py makemigrations projects
+Migrations for 'projects':
+  projects/migrations/0001_initial.py
+    - Create model Project
+```
+
+You should see that a file `projects/migrations/0001_initial.py` has been created in the `projects` app. Check out that file in the [source code](https://github.com/realpython/materials/blob/0091ee5421f8107e8629f1f22687ff224850b889/rp-portfolio/projects/migrations/0001_initial.py) to make sure your migration is correct.
+
+#### Migrate the app
+
+Now that you’ve create a migration file, you need to apply the migrations set out in the migrations file and create your database using the `migrate` command:
+
+```bash
+$ python manage.py migrate projects
+Operations to perform:
+  Apply all migrations: projects
+Running migrations:
+  Applying projects.0001_initial... OK
+```
+
+You should also see that a file called `db.sqlite3` has been created in the root of your project.
+
+When running both the `makemigrations` and `migrate` commands, we added `projects` to our command. This tells Django to only look at models and migrations in the `projects` app. Django comes with several models already created.
+
+If you run `makemigrations` and `migrate` without the projects flag, then all migrations for all the default models in your Django projects will be created and applied.
+
+### Create instances of class using Django shell
+
+To create instances of our `Project` class, we’re going to have to use the **Django shell**. The Django shell is similar to the Python shell but allows you to access the database and create entries. To access the Django shell, we use `python manage.py shell`.
+
+Once you’ve accessed the shell, you’ll notice that the command prompt will change from `$ to >>>`. You can then import your models.
+
+```python
+from projects.models import Project
+```
+
+We’re first going to create a new project with the following attributes:
+
+**name**: My First Project
+**description**: A web development project.
+**technology**: Django
+**image**: img/project1.png
+
+To do this, we create an instance of the Project class in the Django shell
+
+```python
+p1 = Project(
+    title="My First Project",
+    description="A web development project.",
+    technology="Django",
+    image="img/project1.png",
+)
+p1.save()
+```
+
+This creates a new entry in your projects table and saves it to the database. Now you have created a project that you can display on your portfolio site.
+
+The create two more sample projects
+
+```python
+p2 = Project(
+    title="My Second Project",
+    description="Another web development project.",
+    technology="Flask",
+    image="img/project2.png",
+)
+p2.save()
+p3 = Project(
+    title="My Third Project",
+    description="A final development project.",
+    technology="Django",
+    image="img/project3.png",
+)
+p3.save()
+```
+
+
 
 ## Additional Information
 
