@@ -330,6 +330,19 @@ urlpatterns = [
 ## Create another Django app called projects
 
 - In the console, run the command `python manage.py startapp projects`
+- Add to list of installed apps
+
+```python
+INSTALLED_APPS = [
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "projects",
+]
+```
 
 ## Projects App: Models
 
