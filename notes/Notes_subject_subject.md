@@ -568,28 +568,41 @@ Create a grid of cards, with each card displaying details of the project, each d
 - Create `projects/templates/project_index.html`
 
 ```html
-{% extends "base.html" %}
-{% load static %}
-{% block page_content %}
-<h1>Projects</h1>
-<div class="row">
-{% for project in projects %}
-    <div class="col-md-4">
+{% extends "base.html" %} {% load static %} {% block page_content %}
+{{block.super }}
+
+<body>
+  <main>
+    <section>
+      <h1>Projects</h1>
+    </section>
+    <section class="row">
+      {% for project in projects %}
+      <section class="col-md-4">
         <div class="card mb-2">
-            <img class="card-img-top" src="{% static project.image %}">
-            <div class="card-body">
-                <h5 class="card-title">{{ project.title }}</h5>
-                <p class="card-text">{{ project.description }}</p>
-                <a href="{% url 'project_detail' project.pk %}"
-                   class="btn btn-primary">
-                    Read More
-                </a>
-            </div>
+          <img
+            class="card-img-top"
+            src="{% static project.image %}"
+            alt="Project Image"
+          />
+          <div class="card-body">
+            <h5 class="card-title">{{project.title}}</h5>
+            <p class="card-text">{{project.description}}</p>
+            <a
+              href="{% url 'project_details' project.id %}"
+              class="btn btn-primary"
+              >Read more</a
+            >
+          </div>
         </div>
-    </div>
-    {% endfor %}
-</div>
+      </section>
+      {% endfor %}
+    </section>
+  </main>
+</body>
+
 {% endblock %}
+
 ```
 
 - We extend `base.html`
@@ -605,24 +618,34 @@ Create a grid of cards, with each card displaying details of the project, each d
 ### The project_detail.html template
 
 ```html
-{% extends "base.html" %}
-{% load static %}
+{% extends "base.html" %} {% load static %} {% block page_content %}
+{{block.super }}
 
-{% block page_content %}
-<h1>{{ project.title }}</h1>
-<div class="row">
-    <div class="col-md-8">
-        <img src="{% static project.image %}" alt="" width="100%">
-    </div>
-    <div class="col-md-4">
-        <h5>About the project:</h5>
-        <p>{{ project.description }}</p>
-        <br>
-        <h5>Technology used:</h5>
-        <p>{{ project.technology }}</p>
-    </div>
-</div>
+<body>
+  <main>
+    <section>
+      <h1>{{project.titile}}</h1>
+    </section>
+    <section class="row">
+      <div class="col-md-8">
+        <img
+          src="{% static project.image %}"
+          alt="Project Image"
+          width="100%"
+        />
+      </div>
+      <div class="col-md 4">
+        <h5>About the project</h5>
+        <p>{{project.description}}</p>
+        <br />
+        <h5>Technology used</h5>
+        <p>{{project.technology}}</p>
+      </div>
+    </section>
+  </main>
+</body>
 {% endblock %}
+
 ```
 
 - The template exists for each project in the Project model.
