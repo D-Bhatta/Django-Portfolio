@@ -46498,7 +46498,19 @@
                       In the console, run the command
                       <code>python manage.py startapp projects</code>
                     </li>
+                    <li>Add to list of installed apps</li>
                   </ul>
+                  <div class="highlight highlight-source-python">
+                    <pre><span class="pl-v">INSTALLED_APPS</span> <span class="pl-c1">=</span> [
+    <span class="pl-s">"django.contrib.admin"</span>,
+    <span class="pl-s">"django.contrib.auth"</span>,
+    <span class="pl-s">"django.contrib.contenttypes"</span>,
+    <span class="pl-s">"django.contrib.sessions"</span>,
+    <span class="pl-s">"django.contrib.messages"</span>,
+    <span class="pl-s">"django.contrib.staticfiles"</span>,
+    <span class="pl-s">"projects"</span>,
+]</pre>
+                  </div>
                   <h2>
                     <a
                       id="user-content-projects-app-models"
@@ -46799,10 +46811,13 @@ Running migrations:
                     >Index View
                   </h3>
                   <ul>
-                    <li>Import the Project class from models.py</li>
                     <li>
-                      Create a function project_index() that renders a template
-                      called project_index.html
+                      Import the <code>Project</code> class from
+                      <code>models.py</code>
+                    </li>
+                    <li>
+                      Create a function <code>project_index()</code> that
+                      renders a template called <code>project_index.html</code>
                       <ul>
                         <li>
                           In the body of this function, create a Django ORM
@@ -47022,27 +47037,39 @@ Running migrations:
                     </li>
                   </ul>
                   <div class="highlight highlight-text-html-basic">
-                    <pre>{% extends "base.html" %}
-{% load static %}
-{% block page_content %}
-<span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>Projects<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
-<span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">class</span>="<span class="pl-s">row</span>"<span class="pl-kos">&gt;</span>
-{% for project in projects %}
-    <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">class</span>="<span class="pl-s">col-md-4</span>"<span class="pl-kos">&gt;</span>
+                    <pre>{% extends "base.html" %} {% load static %} {% block page_content %}
+{{block.super }}
+
+<span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">section</span><span class="pl-kos">&gt;</span>
+      <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>Projects<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;/</span><span class="pl-ent">section</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">section</span> <span class="pl-c1">class</span>="<span class="pl-s">row</span>"<span class="pl-kos">&gt;</span>
+      {% for project in projects %}
+      <span class="pl-kos">&lt;</span><span class="pl-ent">section</span> <span class="pl-c1">class</span>="<span class="pl-s">col-md-4</span>"<span class="pl-kos">&gt;</span>
         <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">class</span>="<span class="pl-s">card mb-2</span>"<span class="pl-kos">&gt;</span>
-            <span class="pl-kos">&lt;</span><span class="pl-ent">img</span> <span class="pl-c1">class</span>="<span class="pl-s">card-img-top</span>" <span class="pl-c1">src</span>="<span class="pl-s">{% static project.image %}</span>"<span class="pl-kos">&gt;</span>
-            <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">class</span>="<span class="pl-s">card-body</span>"<span class="pl-kos">&gt;</span>
-                <span class="pl-kos">&lt;</span><span class="pl-ent">h5</span> <span class="pl-c1">class</span>="<span class="pl-s">card-title</span>"<span class="pl-kos">&gt;</span>{{ project.title }}<span class="pl-kos">&lt;/</span><span class="pl-ent">h5</span><span class="pl-kos">&gt;</span>
-                <span class="pl-kos">&lt;</span><span class="pl-ent">p</span> <span class="pl-c1">class</span>="<span class="pl-s">card-text</span>"<span class="pl-kos">&gt;</span>{{ project.description }}<span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
-                <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">{% url 'project_detail' project.pk %}</span>"
-                   <span class="pl-c1">class</span>="<span class="pl-s">btn btn-primary</span>"<span class="pl-kos">&gt;</span>
-                    Read More
-                <span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
-            <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+          <span class="pl-kos">&lt;</span><span class="pl-ent">img</span>
+            <span class="pl-c1">class</span>="<span class="pl-s">card-img-top</span>"
+            <span class="pl-c1">src</span>="<span class="pl-s">{% static project.image %}</span>"
+            <span class="pl-c1">alt</span>="<span class="pl-s">Project Image</span>"
+          /&gt;
+          <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">class</span>="<span class="pl-s">card-body</span>"<span class="pl-kos">&gt;</span>
+            <span class="pl-kos">&lt;</span><span class="pl-ent">h5</span> <span class="pl-c1">class</span>="<span class="pl-s">card-title</span>"<span class="pl-kos">&gt;</span>{{project.title}}<span class="pl-kos">&lt;/</span><span class="pl-ent">h5</span><span class="pl-kos">&gt;</span>
+            <span class="pl-kos">&lt;</span><span class="pl-ent">p</span> <span class="pl-c1">class</span>="<span class="pl-s">card-text</span>"<span class="pl-kos">&gt;</span>{{project.description}}<span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
+            <span class="pl-kos">&lt;</span><span class="pl-ent">a</span>
+              <span class="pl-c1">href</span>="<span class="pl-s">{% url 'project_details' project.id %}</span>"
+              <span class="pl-c1">class</span>="<span class="pl-s">btn btn-primary</span>"
+              <span class="pl-kos">&gt;</span>Read more<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span>
+            <span class="pl-kos">&gt;</span>
+          <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
         <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
-    {% endfor %}
-<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+      <span class="pl-kos">&lt;/</span><span class="pl-ent">section</span><span class="pl-kos">&gt;</span>
+      {% endfor %}
+    <span class="pl-kos">&lt;/</span><span class="pl-ent">section</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+
 {% endblock %}</pre>
                   </div>
                   <ul>
@@ -47113,23 +47140,32 @@ Running migrations:
                     >The project_detail.html template
                   </h3>
                   <div class="highlight highlight-text-html-basic">
-                    <pre>{% extends "base.html" %}
-{% load static %}
+                    <pre>{% extends "base.html" %} {% load static %} {% block page_content %}
+{{block.super }}
 
-{% block page_content %}
-<span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>{{ project.title }}<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
-<span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">class</span>="<span class="pl-s">row</span>"<span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">class</span>="<span class="pl-s">col-md-8</span>"<span class="pl-kos">&gt;</span>
-        <span class="pl-kos">&lt;</span><span class="pl-ent">img</span> <span class="pl-c1">src</span>="<span class="pl-s">{% static project.image %}</span>" <span class="pl-c1">alt</span>="" <span class="pl-c1">width</span>="<span class="pl-s">100%</span>"<span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">class</span>="<span class="pl-s">col-md-4</span>"<span class="pl-kos">&gt;</span>
-        <span class="pl-kos">&lt;</span><span class="pl-ent">h5</span><span class="pl-kos">&gt;</span>About the project:<span class="pl-kos">&lt;/</span><span class="pl-ent">h5</span><span class="pl-kos">&gt;</span>
-        <span class="pl-kos">&lt;</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>{{ project.description }}<span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
-        <span class="pl-kos">&lt;</span><span class="pl-ent">br</span><span class="pl-kos">&gt;</span>
-        <span class="pl-kos">&lt;</span><span class="pl-ent">h5</span><span class="pl-kos">&gt;</span>Technology used:<span class="pl-kos">&lt;/</span><span class="pl-ent">h5</span><span class="pl-kos">&gt;</span>
-        <span class="pl-kos">&lt;</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>{{ project.technology }}<span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
-<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">section</span><span class="pl-kos">&gt;</span>
+      <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>{{project.titile}}<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;/</span><span class="pl-ent">section</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">section</span> <span class="pl-c1">class</span>="<span class="pl-s">row</span>"<span class="pl-kos">&gt;</span>
+      <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">class</span>="<span class="pl-s">col-md-8</span>"<span class="pl-kos">&gt;</span>
+        <span class="pl-kos">&lt;</span><span class="pl-ent">img</span>
+          <span class="pl-c1">src</span>="<span class="pl-s">{% static project.image %}</span>"
+          <span class="pl-c1">alt</span>="<span class="pl-s">Project Image</span>"
+          <span class="pl-c1">width</span>="<span class="pl-s">100%</span>"
+        /&gt;
+      <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+      <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">class</span>="<span class="pl-s">col-md 4</span>"<span class="pl-kos">&gt;</span>
+        <span class="pl-kos">&lt;</span><span class="pl-ent">h5</span><span class="pl-kos">&gt;</span>About the project<span class="pl-kos">&lt;/</span><span class="pl-ent">h5</span><span class="pl-kos">&gt;</span>
+        <span class="pl-kos">&lt;</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>{{project.description}}<span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
+        <span class="pl-kos">&lt;</span><span class="pl-ent">br</span> /&gt;
+        <span class="pl-kos">&lt;</span><span class="pl-ent">h5</span><span class="pl-kos">&gt;</span>Technology used<span class="pl-kos">&lt;/</span><span class="pl-ent">h5</span><span class="pl-kos">&gt;</span>
+        <span class="pl-kos">&lt;</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>{{project.technology}}<span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
+      <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;/</span><span class="pl-ent">section</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
 {% endblock %}</pre>
                   </div>
                   <ul>
