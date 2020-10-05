@@ -35,10 +35,29 @@ Notes and code about Django-Portfolio
     - [Project Detail View](#project-detail-view)
   - [Attach views to URLs](#attach-views-to-urls)
     - [Attach the app urls](#attach-the-app-urls)
-    - [Hook these URLs up to the project URLs. In `personal_portfolio/urls.py`,](#hook-these-urls-up-to-the-project-urls-in-personal_portfoliourlspy)
+    - [Hook these URLs up to the project URLs. In `personal_portfolio/urls.py`](#hook-these-urls-up-to-the-project-urls-in-personal_portfoliourlspy)
   - [Projects App: Templates](#projects-app-templates)
     - [The project_index template](#the-project_index-template)
     - [The project_detail.html template](#the-project_detailhtml-template)
+  - [Create a blog](#create-a-blog)
+    - [Create a new app](#create-a-new-app)
+    - [Install the blog app](#install-the-blog-app)
+    - [Create the blog app model](#create-the-blog-app-model)
+      - [Categorty](#categorty)
+      - [Post](#post)
+      - [Comments](#comments)
+    - [Migrate the blog models](#migrate-the-blog-models)
+  - [Use the Django Admin](#use-the-django-admin)
+  - [Add the views](#add-the-views)
+  - [Show blog posts](#show-blog-posts)
+    - [The life cycle of submitting a form](#the-life-cycle-of-submitting-a-form)
+    - [Create urls.py file inside blog/](#create-urlspy-file-inside-blog)
+    - [Add blog/ to project urls](#add-blog-to-project-urls)
+  - [Add the blog templates](#add-the-blog-templates)
+    - [Create the blog index in a new file blog/templates/blog_index.html](#create-the-blog-index-in-a-new-file-blogtemplatesblog_indexhtml)
+    - [Create file blog/templates/blog_category.html for the blog_category template](#create-file-blogtemplatesblog_categoryhtml-for-the-blog_category-template)
+    - [Create the blog_detail template at blog/templates/blog_detail.html](#create-the-blog_detail-template-at-blogtemplatesblog_detailhtml)
+    - [Add a link to the blog_index to the navigation bar in base.html](#add-a-link-to-the-blog_index-to-the-navigation-bar-in-basehtml)
   - [Additional Information](#additional-information)
     - [Screenshots](#screenshots)
     - [Links](#links)
@@ -528,7 +547,7 @@ urlpatterns = [
 - Hook up the root URL of our app to the `project_index` view.
 - To hook up the `project_detail` view, we want the URL to be /1, or /2, and so on, depending on the pk of the project. To do this, we used the `<int:pk>` notation. This just tells Django that the value passed in the URL is an integer, and its variable name is pk.
 
-### Hook these URLs up to the project URLs. In `personal_portfolio/urls.py`,
+### Hook these URLs up to the project URLs. In `personal_portfolio/urls.py`
 
 ```python
 from django.contrib import admin
@@ -654,7 +673,436 @@ Create a grid of cards, with each card displaying details of the project, each d
 - To access the project’s description, use `{{ project.description }}`.
 - To access the project’s technology, use `{{ project.technology }}`.
 
+## Create a blog
 
+### Create a new app
+
+- In the console, run the command `python manage.py startapp blog`
+
+### Install the blog app
+
+```python
+INSTALLED_APPS = [
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "projects",
+    "blog",
+]
+```
+
+### Create the blog app model
+
+We create 3 models: Category, Post, Comment
+
+#### Categorty
+
+```python
+from django.db import models
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=20)
+```
+
+- `name` is a `CharField` we store the name of the category.
+
+#### Post
+
+```python
+class Post(models.Model):
+    title = models.CharField(max_length=255)
+    body = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    last_modified = models.DateTimeField(auto_now=True)
+    categories = models.ManyToManyField("Category", related_name="posts")
+```
+
+- `created_on` and `last_modified`, are Django `DateTimeFields`.
+- These store a datetime object containing the date and time when the post was created and modified respectively.
+- When `DateTimeField` takes an argument `auto_now_add=True`. This assigns the current date and time to this field whenever an instance of this class is created.
+- When `DateTimeField` takes an argument `auto_now=True`. This assigns the current date and time to this field whenever an instance of this class is saved. That means whenever you edit an instance of this class, the date_modified is updated.
+- We want to link our models for categories and posts in such a way that many categories can be assigned to many posts. We use `ManytoManyField` field type.
+- This field links the `Post` and `Category` models and allows us to create a relationship between the two tables.
+- The `ManyToManyField` takes two arguments. The first is the model with which the relationship is, in this case its `Category`. The second allows us to access the relationship from a `Category` object, even though we haven’t added a field there. By adding a `related_name` of posts, we can access `category.posts` to give us a list of posts with that `category`.
+
+#### Comments
+
+```python
+class Comment(models.Model):
+    author = models.CharField(max_length=60)
+    body = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    post = models.ForeignKey("Post", on_delete=models.CASCADE)
+```
+
+- There’s an `author` field for users to add a name or alias, a `body` field for the body of the comment, and a `created_on` field that is identical to the `created_on` field on the `Post` model.
+- the `ForeignKey` field is similar to the `ManyToManyField` but instead defines a **many to one** relationship. The reasoning behind this is that many comments can be assigned to one post. But you can’t have a comment that corresponds to many posts.
+- The `ForeignKey` field takes two arguments. The first is the other model in the relationship, in this case, `Post`. The second tells Django what to do when a post is deleted. If a post is deleted, then we don’t want the comments related to it hanging around. We, therefore, want to delete them as well, so we add the argument `on_delete=models.CASCADE`
+
+### Migrate the blog models
+
+- Create the migration files with makemigrations: `python manage.py makemigrations blog`
+- Migrate the tables. This time, don’t add the app-specific flag, so that this can be used later: `python manage.py migrate`
+
+## Use the Django Admin
+
+It allows you to create, update, and delete instances of your model classes and provides a nice interface for doing so. Before you can access the admin, you need to add yourself as a superuser. This is why, in the previous section, you applied migrations project-wide as opposed to just for the app. Django comes with built-in user models and a user management system that will allow you to login to the admin.
+
+- Add yourself as superuser using the following command: `python manage.py createsuperuser`
+- Enter a username followed by an email address and a password.
+- Navigate to localhost:8000/admin and log in with the credentials.
+- The User and Groups models should appear, but you’ll notice that there’s no reference to the models you’ve created yourself. That’s because you need to register them inside the admin.
+- Open the file blog/admin.py
+- Import the models you want to register on the admin page.
+  - Define empty classes `PostAdmin` and `CategoryAdmin`.
+  - Adding attributes can customize what is shown on the admin page.
+
+```python
+from django.contrib import admin
+from blog.models import Post, Category
+
+
+class PostAdmin(admin.ModelAdmin):
+    pass
+
+
+class CategoryAdmin(admin.ModelAdmin):
+    pass
+
+
+admin.site.register(Post, PostAdmin)
+admin.site.register(Category, CategoryAdmin)
+```
+
+- We’re not adding the comments to the admin. That’s because it’s not usually necessary to edit or create comments yourself. If you wanted to add a feature where comments are moderated, then go ahead and add the Comments model too.
+- Visit `localhost:8000/admin`, and see that the `Post` and `Category` models are now visible. Add new instances of both models.
+
+## Add the views
+
+Create three view functions in the views.py file in the blog directory:
+
+- **blog_index** will display a list of all your posts.
+- **blog_detail** will display the full post as well as comments and a form to allow users to create new comments.
+- **blog_category** will be similar to blog_index, but the posts viewed will only be of a specific category chosen by the user.
+
+- In `blog/views.py`
+
+```python
+from django.shortcuts import render
+from blog.models import Post, Comment
+
+
+def blog_index(request):
+    posts = Post.objects.all().order_by("-created_on")
+    context = {"posts": posts}
+    return render(request, "blog_index.html", context)
+```
+
+- All posts are queried and odrdered by `-created_on`, which means most recent post. `-` tells Django to start with the largest value rather than the smallest.
+
+- Create the `blog_category()` view
+
+```python
+def blog_category(request, category):
+    posts = Post.objects.filter(categories__name__contains=category).order_by(
+        "-created_on"
+    )
+    context = {"category": category, "posts": posts}
+    return render(request, "blog_category.html", context)
+```
+
+- Uses [Django Queryset filter](https://docs.djangoproject.com/en/2.1/topics/db/queries/#retrieving-specific-objects-with-filters).
+- The argument of the filter tells Django what conditions need to be met for an object to be retrieved. In this case, we only want posts whose categories contain the category with the name corresponding to that given in the argument of the view function.
+
+## Show blog posts
+
+- We are going to include a comment form so that people can comment on the post.
+- To add a form to the page, create another file in the blog directory named `forms.py`.
+- Django forms are very similar to models.
+- A form consists of a class where the class attributes are form fields.
+- Django comes with some built-in form fields.
+- For this form, the only fields are `author`, which should be a `CharField`, and `body`, which can also be a `CharField`.
+- If the `CharField` of your form corresponds to a model `CharField`, make sure both have the same `max_length` value.
+
+- In `blog/forms.py`
+
+```python
+from django import forms
+
+
+class CommentForm(forms.Form):
+    author = forms.CharField(
+        max_length=60,
+        widget=forms.TextInput(
+            attrs={"class": "form-control", "placeholder": "Your Name"}
+        ),
+    )
+    body = forms.CharField(
+        widget=forms.Textarea(
+            attrs={"class": "form-control", "placeholder": "Leave a comment!"}
+        )
+    )
+```
+
+- Widget has been passed to both the fields. The author field has the forms.TextInput widget. This tells Django to load this field as an HTML text input element in the templates. The body field uses a forms.TextArea widget instead, so that the field is rendered as an HTML text area element.
+- These widgets also take an argument attrs, which is a dictionary and allows us to specify some CSS classes, which will help with formatting the template for this view later. It also allows us to add some placeholder text.
+
+- Create the `blog_detail()` view
+
+```python
+def blog_detail(request, pk):
+    post = Post.objects.get(pk=pk)
+    comments = Comment.objects.filter(post=post)
+    context = {"post": post, "comments": comments}
+
+    return render(request, "blog_detail.html", context)
+```
+
+- Set up the view function to show a specific post with a comment associated with it.
+- The view function takes a `pk` value as an argument and retrieves the object with the given `pk`.
+- We retrieve all the comments assigned to the given post using Django filters again.
+- Lastly, add both post and comments to the context dictionary and render the template.
+
+- When a form is posted, a POST request is sent to the server.
+- Check if a POST request has been received and then create a comment from the form fields.
+- Django comes with a handy `is_valid()` on its forms, so we can check that all the fields have been entered correctly.
+- Create the comment from the form, save it using `save()` and then query the database for all the comments assigned to the given post.
+
+```python
+def blog_detail(request, pk):
+    post = Post.objects.get(pk=pk)
+
+    form = CommentForm()
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = Comment(
+                author=form.cleaned_data["author"],
+                body=form.cleaned_data["body"],
+                post=post,
+            )
+            comment.save()
+
+    comments = Comment.objects.filter(post=post)
+    context = {"post": post, "comments": comments, "form": form}
+    return render(request, "blog_detail.html", context)
+```
+
+- If a `POST` request has been received then we create a new instance of our form, populated with the data entered into the form.
+- The form is then validated using `is_valid()`. If the form is valid, a new instance of `Comment` is created.
+- You can access the data from the form using `form.cleaned_data`, which is a dictionary.
+- They keys of the dictionary correspond to the form fields, so you can access the author using form.cleaned_data['author'].
+- Add the current post to the comment when you create it.
+
+### The life cycle of submitting a form
+
+- When a user visits a page containing a form, they send a GET request to the server. In this case, there’s no data entered in the form, so we just want to render the form and display it.
+- When a user enters information and clicks the Submit button, a POST request, containing the data submitted with the form, is sent to the server. At this point, the data must be processed, and two things can happen:
+  1. The form is valid, and the user is redirected to the next page.
+  2. The form is invalid, and empty form is once again displayed. The user is back at step 1, and the process repeats.
+
+The Django forms module will output some errors, [which you can display to the user.](https://docs.djangoproject.com/en/2.1/topics/forms/#rendering-form-error-messages).
+
+### Create urls.py file inside blog/
+
+```python
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path("", views.blog_index, name="blog_index"),
+    path("<int:pk>/", views.blog_detail, name="blog_detail"),
+    path("<category>/", views.blog_category, name="blog_category"),
+]
+```
+
+### Add blog/ to project urls
+
+Once the blog-specific URLs are in place, add them to the projects URL configuration using `include()`
+
+```python
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("projects/", include("projects.urls")),
+    path("blog/", include("blog.urls")),
+]
+```
+
+All the blog URLs will be prefixed with blog/, and you’ll have the following URL paths:
+
+- localhost:8000/blog: Blog *index*
+- localhost:8000/blog/1: Blog detail view of blog with *pk=1*
+- localhost:8000/blog/python: Blog index view of all posts with category *python*
+
+They each correspond to a view function in `blog/`
+
+## Add the blog templates
+
+### Create the blog index in a new file blog/templates/blog_index.html
+
+- Extend the base template `personal_porfolio/templates/base.html`
+- Use a for loop to loop over all the posts.
+- For each post, display the title and a snippet of the body.
+
+```html
+{% extends "base.html" %}
+{% block page_content %}
+<div class="col-md-8 offset-md-2">
+    <h1>Blog Index</h1>
+    <hr>
+    {% for post in posts %}
+    <h2><a href="{% url 'blog_detail' post.pk%}">{{ post.title }}</a></h2>
+    <small>
+        {{ post.created_on.date }} |&nbsp;
+        Categories:&nbsp;
+        {% for category in post.categories.all %}
+        <a href="{% url 'blog_category' category.name %}">
+            {{ category.name }}
+        </a>&nbsp;
+        {% endfor %}
+    </small>
+    <p>{{ post.body | slice:":400" }}...</p>
+    {% endfor %}
+</div>
+{% endblock %}
+```
+
+- `<h2><a href="{% url 'blog_detail' post.pk%}">{{ post.title }}</a></h2>` has the post title
+- The link is a Django link where we are pointing to the URL named blog_detail, which takes an integer as its argument and should correspond to the pk value of the post.
+- We use another for loop to loop over all the categories assigned to the post.
+- We use a template filter `slice` to cut off the post body at 400 characters so that the blog index is more readable.
+- Access this page by visiting `localhost:8000/blog`
+
+### Create file blog/templates/blog_category.html for the blog_category template
+
+Identical to blog_index.html, except with the category name inside the `h1` tag instead of Blog Index
+
+```html
+{% extends "base.html" %}
+{% block page_content %}
+<div class="col-md-8 offset-md-2">
+    <h1>{{ category | title }}</h1>
+    <hr>
+    {% for post in posts %}
+        <h2><a href="{% url 'blog_detail' post.pk%}">{{ post.title }}</a></h2>
+        <small>
+            {{ post.created_on.date }} |&nbsp;
+            Categories:&nbsp;
+            {% for category in post.categories.all %}
+            <a href="{% url 'blog_category' category.name %}">
+                {{ category.name }}
+            </a>&nbsp;
+            {% endfor %}
+        </small>
+        <p>{{ post.body | slice:":400" }}...</p>
+    {% endfor %}
+</div>
+{% endblock %}
+```
+
+- We use the Django template filter `title`. This applies **titlecase** to the string and makes words start with an uppercase character.
+
+- Visit `localhost:8000/blog/python` and see all the posts with that category.
+
+### Create the blog_detail template at blog/templates/blog_detail.html
+
+- Display the date the post was created and any categories.
+- Underneath that include a comments form so users can add a new comment.
+- Under this, there will be a list of comments that have already been left.
+
+```html
+{% extends "base.html" %}
+{% block page_content %}
+<div class="col-md-8 offset-md-2">
+    <h1>{{ post.title }}</h1>
+    <small>
+        {{ post.created_on.date }} |&nbsp;
+        Categories:&nbsp;
+        {% for category in post.categories.all %}
+        <a href="{% url 'blog_category' category.name %}">
+            {{ category.name }}
+        </a>&nbsp;
+        {% endfor %}
+    </small>
+    <p>{{ post.body | linebreaks }}</p>
+    <h3>Leave a comment:</h3>
+    <form action="/blog/{{ post.pk }}/" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.author }}
+        </div>
+        <div class="form-group">
+            {{ form.body }}
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <h3>Comments:</h3>
+    {% for comment in comments %}
+    <p>
+        On {{comment.created_on.date }}&nbsp;
+        <b>{{ comment.author }}</b> wrote:
+    </p>
+    <p>{{ comment.body }}</p>
+    <hr>
+    {% endfor %}
+</div>
+{% endblock %}
+
+```
+
+- Loop over all the categories of the post.
+- When rendering the post body, use a `linebreaks` template filter. This tag registers line breaks as new paragraphs, so the body doesn’t appear as one long block of text.
+- Underneath the post display the comment form.
+- The form action points to the URL path of the page to which you’re sending the POST request to.
+- In this case, it’s the same as the page that is currently being visited.
+- Add a `csrf_token`, which provides security and renders the body and author fields of the form, followed by a submit button.
+- To get the bootstrap styling on the author and body fields, you need to add the form-control class to the text inputs.
+- Because Django renders the inputs for you when you include {{ form.body }} and {{ form.author }}, you can’t add these classes in the template. That’s why you added the attributes to the form widgets in the previous section.
+- Underneath the form, there’s another for loop that loops over all the comments on the given post. The comments, body, author, and created_on attributes are all displayed.
+- Visit `localhost:8000/blog/1` and view your first post.
+
+### Add a link to the blog_index to the navigation bar in base.html
+
+```html
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'project_index' %}">RP Portfolio</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'project_index' %}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'blog_index' %}">Blog</a>
+            </li>
+          </ul>
+        </div>
+    </div>
+
+</nav>
+
+<div class="container">
+    {% block page_content %}{% endblock %}
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J [≈ flash energy of a typical pocket camera photoflash capacitor, 100-400 µF @ 330 V]3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+```
 
 ## Additional Information
 
