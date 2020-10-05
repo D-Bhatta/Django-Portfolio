@@ -3,7 +3,7 @@ from django.db import models
 # Projects model
 
 
-class Projects(models.Model):
+class Project(models.Model):
     """
     Projects model class for the projects app.
 
@@ -13,5 +13,5 @@ class Projects(models.Model):
 
     title = models.CharField(max_length=100)
     description = models.TextField()
-    techonlogy = models.CharField(max_length=100)
+    technology = models.CharField(max_length=100)
     image = models.FilePathField(path="/img")
