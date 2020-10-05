@@ -23,12 +23,22 @@ Notes and code about Django-Portfolio
     - [Delete the directory](#delete-the-directory)
     - [Remove it's name from installed apps](#remove-its-name-from-installed-apps)
     - [Remove url paths to it](#remove-url-paths-to-it)
+  - [Create another Django app called projects](#create-another-django-app-called-projects)
   - [Projects App: Models](#projects-app-models)
   - [Create one model in models.py](#create-one-model-in-modelspy)
     - [Migrate](#migrate)
       - [Create the migrations file](#create-the-migrations-file)
       - [Migrate the app](#migrate-the-app)
     - [Create instances of class using Django shell](#create-instances-of-class-using-django-shell)
+  - [Projects App: Views](#projects-app-views)
+    - [Index View](#index-view)
+    - [Project Detail View](#project-detail-view)
+  - [Attach views to URLs](#attach-views-to-urls)
+    - [Attach the app urls](#attach-the-app-urls)
+    - [Hook these URLs up to the project URLs. In `personal_portfolio/urls.py`,](#hook-these-urls-up-to-the-project-urls-in-personal_portfoliourlspy)
+  - [Projects App: Templates](#projects-app-templates)
+    - [The project_index template](#the-project_index-template)
+    - [The project_detail.html template](#the-project_detailhtml-template)
   - [Additional Information](#additional-information)
     - [Screenshots](#screenshots)
     - [Links](#links)
@@ -317,6 +327,10 @@ urlpatterns = [
 ]
 ```
 
+## Create another Django app called projects
+
+- In the console, run the command `python manage.py startapp projects`
+
 ## Projects App: Models
 
 Django has a built-in **Object Relational Mapper (ORM)**.
@@ -435,6 +449,174 @@ p3 = Project(
 )
 p3.save()
 ```
+
+## Projects App: Views
+
+We will now create view functions to send the data from the database to the HTML templates.
+
+In the projects app,
+
+An index view that shows a snippet of information about each project
+A detail view that shows more information on a particular topic
+
+### Index View
+
+- Import the Project class from models.py
+- Create a function project_index() that renders a template called project_index.html
+  - In the body of this function, create a Django ORM query to select all objects in the Project table
+
+```python
+from django.shortcuts import render
+from projects.models import Project
+
+
+def project_index(request):
+    projects = Project.objects.all()
+    context = {"projects": projects}
+    return render(request, "project_index.html", context)
+```
+
+Here, it performs a query. A query is simply a command that allows you to create, retrieve, update, or delete objects (or rows) in your database. A database query returns a collection of all objects that match the query, known as a Queryset. In this case, you want all objects in the table, so it will return a collection of all projects.
+
+We define a dictionary `context`. The dictionary only has one entry projects to which we assign our `Queryset` containing all projects. The `context` dictionary is used to send information to our template. **Every view function you create needs to have a context dictionary.**
+
+Context is added as an argument to `render()`. Any entries in the context dictionary are available in the template, as long as the context argument is passed to `render()`. We also render a template named `project_index.html`.
+
+### Project Detail View
+
+- The `project_detail()` view function.
+- This function will need an additional argument: the id of the project that’s being viewed.
+
+```python
+def project_detail(request, pk):
+    project = Project.objects.get(pk=pk)
+    context = {"project": project}
+    return render(request, "project_detail.html", context)
+```
+
+We perform a query. This query retrieves the project with primary key, `pk`, equal to that in the function argument. We then assign that project in our `context` dictionary, which we pass to `render()`. Again, there’s a template `project_detail.html`.
+
+## Attach views to URLs
+
+### Attach the app urls
+
+Create a file `projects/urls.py` to hold the URL configuration for the app.
+
+```python
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path("", views.project_index, name="project_index"),
+    path("<int:pk>/", views.project_detail, name="project_detail"),
+]
+```
+
+- Hook up the root URL of our app to the `project_index` view.
+- To hook up the `project_detail` view, we want the URL to be /1, or /2, and so on, depending on the pk of the project. To do this, we used the `<int:pk>` notation. This just tells Django that the value passed in the URL is an integer, and its variable name is pk.
+
+### Hook these URLs up to the project URLs. In `personal_portfolio/urls.py`,
+
+```python
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("projects/", include("projects.urls")),
+]
+```
+
+This line of code includes all the URLs in the projects app but means they are accessed when prefixed by `projects/`. There are now two full URLs that can be accessed with our project
+
+- localhost:8000/projects: The project index page
+- localhost:8000/projects/3: The detail view for the project with pk=3
+
+## Projects App: Templates
+
+Create the HTML templates for the views.
+
+1. The project_index template
+2. The project_detail template
+
+### The project_index template
+
+Create a grid of cards, with each card displaying details of the project, each dynamically generated.
+
+- Add Bootstrap styles to our application in `base.html`
+- The for loop syntax in the Django template engine is as follows:
+
+```html
+{% for project in projects %}
+{# Do something... #}
+{% endfor %}
+```
+
+- Create `projects/templates/project_index.html`
+
+```html
+{% extends "base.html" %}
+{% load static %}
+{% block page_content %}
+<h1>Projects</h1>
+<div class="row">
+{% for project in projects %}
+    <div class="col-md-4">
+        <div class="card mb-2">
+            <img class="card-img-top" src="{% static project.image %}">
+            <div class="card-body">
+                <h5 class="card-title">{{ project.title }}</h5>
+                <p class="card-text">{{ project.description }}</p>
+                <a href="{% url 'project_detail' project.pk %}"
+                   class="btn btn-primary">
+                    Read More
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+```
+
+- We extend `base.html`
+- We include a `{% load static %}` tag to include static files such as images
+- When loading static files, Django looks in the static/ directory for files matching a given filepath within static/.
+- Create a directory named `static/` with another 2 directories named `projects/img/` inside.
+- Copy over the images from [here](https://github.com/realpython/materials/tree/7909f5a682a88d8488167bc6fe9b64a5b294f99a/rp-portfolio/projects/static/img).
+- we begin the `for` loop, looping over all `projects` passed in by the `context` dictionary. Inside this for loop, we can access each individual project. To access the project’s attributes, use dot notation inside double curly brackets. For example, to access the project’s title, use `{{ project.title }}`. The same notation can be used to access any of the project’s attributes.
+- Include project image. Inside the `src` attribute, we add the code `{% static project.image %}.` This tells Django to look inside the static files to find a file matching `project.image`.
+- Link to `project_detail` page. Accessing URLs in Django is similar to accessing static files. The code for the URL has the following form: `{% url '<url path name>' <view_function_arguments> %}`
+- We are accessing a URL path named `project_detail`, which takes integer arguments corresponding to the `pk` number of the project.
+
+### The project_detail.html template
+
+```html
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_content %}
+<h1>{{ project.title }}</h1>
+<div class="row">
+    <div class="col-md-8">
+        <img src="{% static project.image %}" alt="" width="100%">
+    </div>
+    <div class="col-md-4">
+        <h5>About the project:</h5>
+        <p>{{ project.description }}</p>
+        <br>
+        <h5>Technology used:</h5>
+        <p>{{ project.technology }}</p>
+    </div>
+</div>
+{% endblock %}
+```
+
+- The template exists for each project in the Project model.
+- To access the project’s image, use `{{ project.image }}`.
+- To access the project’s title, use `{{ project.title }}`.
+- To access the project’s description, use `{{ project.description }}`.
+- To access the project’s technology, use `{{ project.technology }}`.
 
 
 
