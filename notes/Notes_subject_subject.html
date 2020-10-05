@@ -45712,7 +45712,7 @@
                               <a
                                 href="#hook-these-urls-up-to-the-project-urls-in-personal_portfoliourlspy"
                                 >Hook these URLs up to the project URLs. In
-                                <code>personal_portfolio/urls.py</code>,</a
+                                <code>personal_portfolio/urls.py</code></a
                               >
                             </li>
                           </ul>
@@ -45730,6 +45730,95 @@
                             <li>
                               <a href="#the-project_detailhtml-template"
                                 >The project_detail.html template</a
+                              >
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                          <a href="#create-a-blog">Create a blog</a>
+                          <ul>
+                            <li>
+                              <a href="#create-a-new-app">Create a new app</a>
+                            </li>
+                            <li>
+                              <a href="#install-the-blog-app"
+                                >Install the blog app</a
+                              >
+                            </li>
+                            <li>
+                              <a href="#create-the-blog-app-model"
+                                >Create the blog app model</a
+                              >
+                              <ul>
+                                <li><a href="#categorty">Categorty</a></li>
+                                <li><a href="#post">Post</a></li>
+                                <li><a href="#comments">Comments</a></li>
+                              </ul>
+                            </li>
+                            <li>
+                              <a href="#migrate-the-blog-models"
+                                >Migrate the blog models</a
+                              >
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                          <a href="#use-the-django-admin"
+                            >Use the Django Admin</a
+                          >
+                        </li>
+                        <li><a href="#add-the-views">Add the views</a></li>
+                        <li>
+                          <a href="#show-blog-posts">Show blog posts</a>
+                          <ul>
+                            <li>
+                              <a href="#the-life-cycle-of-submitting-a-form"
+                                >The life cycle of submitting a form</a
+                              >
+                            </li>
+                            <li>
+                              <a href="#create-urlspy-file-inside-blog"
+                                >Create urls.py file inside blog/</a
+                              >
+                            </li>
+                            <li>
+                              <a href="#add-blog-to-project-urls"
+                                >Add blog/ to project urls</a
+                              >
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                          <a href="#add-the-blog-templates"
+                            >Add the blog templates</a
+                          >
+                          <ul>
+                            <li>
+                              <a
+                                href="#create-the-blog-index-in-a-new-file-blogtemplatesblog_indexhtml"
+                                >Create the blog index in a new file
+                                blog/templates/blog_index.html</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#create-file-blogtemplatesblog_categoryhtml-for-the-blog_category-template"
+                                >Create file blog/templates/blog_category.html
+                                for the blog_category template</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#create-the-blog_detail-template-at-blogtemplatesblog_detailhtml"
+                                >Create the blog_detail template at
+                                blog/templates/blog_detail.html</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#add-a-link-to-the-blog_index-to-the-navigation-bar-in-basehtml"
+                                >Add a link to the blog_index to the navigation
+                                bar in base.html</a
                               >
                             </li>
                           </ul>
@@ -46957,7 +47046,7 @@ Running migrations:
                         class="octicon octicon-link"
                       ></span></a
                     >Hook these URLs up to the project URLs. In
-                    <code>personal_portfolio/urls.py</code>,
+                    <code>personal_portfolio/urls.py</code>
                   </h3>
                   <div class="highlight highlight-source-python">
                     <pre><span class="pl-k">from</span> <span class="pl-s1">django</span>.<span class="pl-s1">contrib</span> <span class="pl-k">import</span> <span class="pl-s1">admin</span>
@@ -47189,6 +47278,1009 @@ Running migrations:
                       <code>{{ project.technology }}</code>.
                     </li>
                   </ul>
+                  <h2>
+                    <a
+                      id="user-content-create-a-blog"
+                      class="anchor"
+                      href="#create-a-blog"
+                      aria-hidden="true"
+                      ><span
+                        aria-hidden="true"
+                        class="octicon octicon-link"
+                      ></span></a
+                    >Create a blog
+                  </h2>
+                  <h3>
+                    <a
+                      id="user-content-create-a-new-app"
+                      class="anchor"
+                      href="#create-a-new-app"
+                      aria-hidden="true"
+                      ><span
+                        aria-hidden="true"
+                        class="octicon octicon-link"
+                      ></span></a
+                    >Create a new app
+                  </h3>
+                  <ul>
+                    <li>
+                      In the console, run the command
+                      <code>python manage.py startapp blog</code>
+                    </li>
+                  </ul>
+                  <h3>
+                    <a
+                      id="user-content-install-the-blog-app"
+                      class="anchor"
+                      href="#install-the-blog-app"
+                      aria-hidden="true"
+                      ><span
+                        aria-hidden="true"
+                        class="octicon octicon-link"
+                      ></span></a
+                    >Install the blog app
+                  </h3>
+                  <div class="highlight highlight-source-python">
+                    <pre><span class="pl-v">INSTALLED_APPS</span> <span class="pl-c1">=</span> [
+    <span class="pl-s">"django.contrib.admin"</span>,
+    <span class="pl-s">"django.contrib.auth"</span>,
+    <span class="pl-s">"django.contrib.contenttypes"</span>,
+    <span class="pl-s">"django.contrib.sessions"</span>,
+    <span class="pl-s">"django.contrib.messages"</span>,
+    <span class="pl-s">"django.contrib.staticfiles"</span>,
+    <span class="pl-s">"projects"</span>,
+    <span class="pl-s">"blog"</span>,
+]</pre>
+                  </div>
+                  <h3>
+                    <a
+                      id="user-content-create-the-blog-app-model"
+                      class="anchor"
+                      href="#create-the-blog-app-model"
+                      aria-hidden="true"
+                      ><span
+                        aria-hidden="true"
+                        class="octicon octicon-link"
+                      ></span></a
+                    >Create the blog app model
+                  </h3>
+                  <p>We create 3 models: Category, Post, Comment</p>
+                  <h4>
+                    <a
+                      id="user-content-categorty"
+                      class="anchor"
+                      href="#categorty"
+                      aria-hidden="true"
+                      ><span
+                        aria-hidden="true"
+                        class="octicon octicon-link"
+                      ></span></a
+                    >Categorty
+                  </h4>
+                  <div class="highlight highlight-source-python">
+                    <pre><span class="pl-k">from</span> <span class="pl-s1">django</span>.<span class="pl-s1">db</span> <span class="pl-k">import</span> <span class="pl-s1">models</span>
+
+
+<span class="pl-k">class</span> <span class="pl-v">Category</span>(<span class="pl-s1">models</span>.<span class="pl-v">Model</span>):
+    <span class="pl-s1">name</span> <span class="pl-c1">=</span> <span class="pl-s1">models</span>.<span class="pl-v">CharField</span>(<span class="pl-s1">max_length</span><span class="pl-c1">=</span><span class="pl-c1">20</span>)</pre>
+                  </div>
+                  <ul>
+                    <li>
+                      <code>name</code> is a <code>CharField</code> we store the
+                      name of the category.
+                    </li>
+                  </ul>
+                  <h4>
+                    <a
+                      id="user-content-post"
+                      class="anchor"
+                      href="#post"
+                      aria-hidden="true"
+                      ><span
+                        aria-hidden="true"
+                        class="octicon octicon-link"
+                      ></span></a
+                    >Post
+                  </h4>
+                  <div class="highlight highlight-source-python">
+                    <pre><span class="pl-k">class</span> <span class="pl-v">Post</span>(<span class="pl-s1">models</span>.<span class="pl-v">Model</span>):
+    <span class="pl-s1">title</span> <span class="pl-c1">=</span> <span class="pl-s1">models</span>.<span class="pl-v">CharField</span>(<span class="pl-s1">max_length</span><span class="pl-c1">=</span><span class="pl-c1">255</span>)
+    <span class="pl-s1">body</span> <span class="pl-c1">=</span> <span class="pl-s1">models</span>.<span class="pl-v">TextField</span>()
+    <span class="pl-s1">created_on</span> <span class="pl-c1">=</span> <span class="pl-s1">models</span>.<span class="pl-v">DateTimeField</span>(<span class="pl-s1">auto_now_add</span><span class="pl-c1">=</span><span class="pl-c1">True</span>)
+    <span class="pl-s1">last_modified</span> <span class="pl-c1">=</span> <span class="pl-s1">models</span>.<span class="pl-v">DateTimeField</span>(<span class="pl-s1">auto_now</span><span class="pl-c1">=</span><span class="pl-c1">True</span>)
+    <span class="pl-s1">categories</span> <span class="pl-c1">=</span> <span class="pl-s1">models</span>.<span class="pl-v">ManyToManyField</span>(<span class="pl-s">"Category"</span>, <span class="pl-s1">related_name</span><span class="pl-c1">=</span><span class="pl-s">"posts"</span>)</pre>
+                  </div>
+                  <ul>
+                    <li>
+                      <code>created_on</code> and <code>last_modified</code>,
+                      are Django <code>DateTimeFields</code>.
+                    </li>
+                    <li>
+                      These store a datetime object containing the date and time
+                      when the post was created and modified respectively.
+                    </li>
+                    <li>
+                      When <code>DateTimeField</code> takes an argument
+                      <code>auto_now_add=True</code>. This assigns the current
+                      date and time to this field whenever an instance of this
+                      class is created.
+                    </li>
+                    <li>
+                      When <code>DateTimeField</code> takes an argument
+                      <code>auto_now=True</code>. This assigns the current date
+                      and time to this field whenever an instance of this class
+                      is saved. That means whenever you edit an instance of this
+                      class, the date_modified is updated.
+                    </li>
+                    <li>
+                      We want to link our models for categories and posts in
+                      such a way that many categories can be assigned to many
+                      posts. We use <code>ManytoManyField</code> field type.
+                    </li>
+                    <li>
+                      This field links the <code>Post</code> and
+                      <code>Category</code> models and allows us to create a
+                      relationship between the two tables.
+                    </li>
+                    <li>
+                      The <code>ManyToManyField</code> takes two arguments. The
+                      first is the model with which the relationship is, in this
+                      case its <code>Category</code>. The second allows us to
+                      access the relationship from a
+                      <code>Category</code> object, even though we haven’t added
+                      a field there. By adding a <code>related_name</code> of
+                      posts, we can access <code>category.posts</code> to give
+                      us a list of posts with that <code>category</code>.
+                    </li>
+                  </ul>
+                  <h4>
+                    <a
+                      id="user-content-comments"
+                      class="anchor"
+                      href="#comments"
+                      aria-hidden="true"
+                      ><span
+                        aria-hidden="true"
+                        class="octicon octicon-link"
+                      ></span></a
+                    >Comments
+                  </h4>
+                  <div class="highlight highlight-source-python">
+                    <pre><span class="pl-k">class</span> <span class="pl-v">Comment</span>(<span class="pl-s1">models</span>.<span class="pl-v">Model</span>):
+    <span class="pl-s1">author</span> <span class="pl-c1">=</span> <span class="pl-s1">models</span>.<span class="pl-v">CharField</span>(<span class="pl-s1">max_length</span><span class="pl-c1">=</span><span class="pl-c1">60</span>)
+    <span class="pl-s1">body</span> <span class="pl-c1">=</span> <span class="pl-s1">models</span>.<span class="pl-v">TextField</span>()
+    <span class="pl-s1">created_on</span> <span class="pl-c1">=</span> <span class="pl-s1">models</span>.<span class="pl-v">DateTimeField</span>(<span class="pl-s1">auto_now_add</span><span class="pl-c1">=</span><span class="pl-c1">True</span>)
+    <span class="pl-s1">post</span> <span class="pl-c1">=</span> <span class="pl-s1">models</span>.<span class="pl-v">ForeignKey</span>(<span class="pl-s">"Post"</span>, <span class="pl-s1">on_delete</span><span class="pl-c1">=</span><span class="pl-s1">models</span>.<span class="pl-v">CASCADE</span>)</pre>
+                  </div>
+                  <ul>
+                    <li>
+                      There’s an <code>author</code> field for users to add a
+                      name or alias, a <code>body</code> field for the body of
+                      the comment, and a <code>created_on</code> field that is
+                      identical to the <code>created_on</code> field on the
+                      <code>Post</code> model.
+                    </li>
+                    <li>
+                      the <code>ForeignKey</code> field is similar to the
+                      <code>ManyToManyField</code> but instead defines a
+                      <strong>many to one</strong> relationship. The reasoning
+                      behind this is that many comments can be assigned to one
+                      post. But you can’t have a comment that corresponds to
+                      many posts.
+                    </li>
+                    <li>
+                      The <code>ForeignKey</code> field takes two arguments. The
+                      first is the other model in the relationship, in this
+                      case, <code>Post</code>. The second tells Django what to
+                      do when a post is deleted. If a post is deleted, then we
+                      don’t want the comments related to it hanging around. We,
+                      therefore, want to delete them as well, so we add the
+                      argument <code>on_delete=models.CASCADE</code>
+                    </li>
+                  </ul>
+                  <h3>
+                    <a
+                      id="user-content-migrate-the-blog-models"
+                      class="anchor"
+                      href="#migrate-the-blog-models"
+                      aria-hidden="true"
+                      ><span
+                        aria-hidden="true"
+                        class="octicon octicon-link"
+                      ></span></a
+                    >Migrate the blog models
+                  </h3>
+                  <ul>
+                    <li>
+                      Create the migration files with makemigrations:
+                      <code>python manage.py makemigrations blog</code>
+                    </li>
+                    <li>
+                      Migrate the tables. This time, don’t add the app-specific
+                      flag, so that this can be used later:
+                      <code>python manage.py migrate</code>
+                    </li>
+                  </ul>
+                  <h2>
+                    <a
+                      id="user-content-use-the-django-admin"
+                      class="anchor"
+                      href="#use-the-django-admin"
+                      aria-hidden="true"
+                      ><span
+                        aria-hidden="true"
+                        class="octicon octicon-link"
+                      ></span></a
+                    >Use the Django Admin
+                  </h2>
+                  <p>
+                    It allows you to create, update, and delete instances of
+                    your model classes and provides a nice interface for doing
+                    so. Before you can access the admin, you need to add
+                    yourself as a superuser. This is why, in the previous
+                    section, you applied migrations project-wide as opposed to
+                    just for the app. Django comes with built-in user models and
+                    a user management system that will allow you to login to the
+                    admin.
+                  </p>
+                  <ul>
+                    <li>
+                      Add yourself as superuser using the following command:
+                      <code>python manage.py createsuperuser</code>
+                    </li>
+                    <li>
+                      Enter a username followed by an email address and a
+                      password.
+                    </li>
+                    <li>
+                      Navigate to localhost:8000/admin and log in with the
+                      credentials.
+                    </li>
+                    <li>
+                      The User and Groups models should appear, but you’ll
+                      notice that there’s no reference to the models you’ve
+                      created yourself. That’s because you need to register them
+                      inside the admin.
+                    </li>
+                    <li>Open the file blog/admin.py</li>
+                    <li>
+                      Import the models you want to register on the admin page.
+                      <ul>
+                        <li>
+                          Define empty classes <code>PostAdmin</code> and
+                          <code>CategoryAdmin</code>.
+                        </li>
+                        <li>
+                          Adding attributes can customize what is shown on the
+                          admin page.
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                  <div class="highlight highlight-source-python">
+                    <pre><span class="pl-k">from</span> <span class="pl-s1">django</span>.<span class="pl-s1">contrib</span> <span class="pl-k">import</span> <span class="pl-s1">admin</span>
+<span class="pl-k">from</span> <span class="pl-s1">blog</span>.<span class="pl-s1">models</span> <span class="pl-k">import</span> <span class="pl-v">Post</span>, <span class="pl-v">Category</span>
+
+
+<span class="pl-k">class</span> <span class="pl-v">PostAdmin</span>(<span class="pl-s1">admin</span>.<span class="pl-v">ModelAdmin</span>):
+    <span class="pl-k">pass</span>
+
+
+<span class="pl-k">class</span> <span class="pl-v">CategoryAdmin</span>(<span class="pl-s1">admin</span>.<span class="pl-v">ModelAdmin</span>):
+    <span class="pl-k">pass</span>
+
+
+<span class="pl-s1">admin</span>.<span class="pl-s1">site</span>.<span class="pl-en">register</span>(<span class="pl-v">Post</span>, <span class="pl-v">PostAdmin</span>)
+<span class="pl-s1">admin</span>.<span class="pl-s1">site</span>.<span class="pl-en">register</span>(<span class="pl-v">Category</span>, <span class="pl-v">CategoryAdmin</span>)</pre>
+                  </div>
+                  <ul>
+                    <li>
+                      We’re not adding the comments to the admin. That’s because
+                      it’s not usually necessary to edit or create comments
+                      yourself. If you wanted to add a feature where comments
+                      are moderated, then go ahead and add the Comments model
+                      too.
+                    </li>
+                    <li>
+                      Visit <code>localhost:8000/admin</code>, and see that the
+                      <code>Post</code> and <code>Category</code> models are now
+                      visible. Add new instances of both models.
+                    </li>
+                  </ul>
+                  <h2>
+                    <a
+                      id="user-content-add-the-views"
+                      class="anchor"
+                      href="#add-the-views"
+                      aria-hidden="true"
+                      ><span
+                        aria-hidden="true"
+                        class="octicon octicon-link"
+                      ></span></a
+                    >Add the views
+                  </h2>
+                  <p>
+                    Create three view functions in the views.py file in the blog
+                    directory:
+                  </p>
+                  <ul>
+                    <li>
+                      <p>
+                        <strong>blog_index</strong> will display a list of all
+                        your posts.
+                      </p>
+                    </li>
+                    <li>
+                      <p>
+                        <strong>blog_detail</strong> will display the full post
+                        as well as comments and a form to allow users to create
+                        new comments.
+                      </p>
+                    </li>
+                    <li>
+                      <p>
+                        <strong>blog_category</strong> will be similar to
+                        blog_index, but the posts viewed will only be of a
+                        specific category chosen by the user.
+                      </p>
+                    </li>
+                    <li>
+                      <p>In <code>blog/views.py</code></p>
+                    </li>
+                  </ul>
+                  <div class="highlight highlight-source-python">
+                    <pre><span class="pl-k">from</span> <span class="pl-s1">django</span>.<span class="pl-s1">shortcuts</span> <span class="pl-k">import</span> <span class="pl-s1">render</span>
+<span class="pl-k">from</span> <span class="pl-s1">blog</span>.<span class="pl-s1">models</span> <span class="pl-k">import</span> <span class="pl-v">Post</span>, <span class="pl-v">Comment</span>
+
+
+<span class="pl-k">def</span> <span class="pl-en">blog_index</span>(<span class="pl-s1">request</span>):
+    <span class="pl-s1">posts</span> <span class="pl-c1">=</span> <span class="pl-v">Post</span>.<span class="pl-s1">objects</span>.<span class="pl-en">all</span>().<span class="pl-en">order_by</span>(<span class="pl-s">"-created_on"</span>)
+    <span class="pl-s1">context</span> <span class="pl-c1">=</span> {<span class="pl-s">"posts"</span>: <span class="pl-s1">posts</span>}
+    <span class="pl-k">return</span> <span class="pl-en">render</span>(<span class="pl-s1">request</span>, <span class="pl-s">"blog_index.html"</span>, <span class="pl-s1">context</span>)</pre>
+                  </div>
+                  <ul>
+                    <li>
+                      <p>
+                        All posts are queried and odrdered by
+                        <code>-created_on</code>, which means most recent post.
+                        <code>-</code> tells Django to start with the largest
+                        value rather than the smallest.
+                      </p>
+                    </li>
+                    <li>
+                      <p>Create the <code>blog_category()</code> view</p>
+                    </li>
+                  </ul>
+                  <div class="highlight highlight-source-python">
+                    <pre><span class="pl-k">def</span> <span class="pl-en">blog_category</span>(<span class="pl-s1">request</span>, <span class="pl-s1">category</span>):
+    <span class="pl-s1">posts</span> <span class="pl-c1">=</span> <span class="pl-v">Post</span>.<span class="pl-s1">objects</span>.<span class="pl-en">filter</span>(<span class="pl-s1">categories__name__contains</span><span class="pl-c1">=</span><span class="pl-s1">category</span>).<span class="pl-en">order_by</span>(
+        <span class="pl-s">"-created_on"</span>
+    )
+    <span class="pl-s1">context</span> <span class="pl-c1">=</span> {<span class="pl-s">"category"</span>: <span class="pl-s1">category</span>, <span class="pl-s">"posts"</span>: <span class="pl-s1">posts</span>}
+    <span class="pl-k">return</span> <span class="pl-en">render</span>(<span class="pl-s1">request</span>, <span class="pl-s">"blog_category.html"</span>, <span class="pl-s1">context</span>)</pre>
+                  </div>
+                  <ul>
+                    <li>
+                      Uses
+                      <a
+                        href="https://docs.djangoproject.com/en/2.1/topics/db/queries/#retrieving-specific-objects-with-filters"
+                        rel="nofollow"
+                        >Django Queryset filter</a
+                      >.
+                    </li>
+                    <li>
+                      The argument of the filter tells Django what conditions
+                      need to be met for an object to be retrieved. In this
+                      case, we only want posts whose categories contain the
+                      category with the name corresponding to that given in the
+                      argument of the view function.
+                    </li>
+                  </ul>
+                  <h2>
+                    <a
+                      id="user-content-show-blog-posts"
+                      class="anchor"
+                      href="#show-blog-posts"
+                      aria-hidden="true"
+                      ><span
+                        aria-hidden="true"
+                        class="octicon octicon-link"
+                      ></span></a
+                    >Show blog posts
+                  </h2>
+                  <ul>
+                    <li>
+                      <p>
+                        We are going to include a comment form so that people
+                        can comment on the post.
+                      </p>
+                    </li>
+                    <li>
+                      <p>
+                        To add a form to the page, create another file in the
+                        blog directory named <code>forms.py</code>.
+                      </p>
+                    </li>
+                    <li>
+                      <p>Django forms are very similar to models.</p>
+                    </li>
+                    <li>
+                      <p>
+                        A form consists of a class where the class attributes
+                        are form fields.
+                      </p>
+                    </li>
+                    <li>
+                      <p>Django comes with some built-in form fields.</p>
+                    </li>
+                    <li>
+                      <p>
+                        For this form, the only fields are <code>author</code>,
+                        which should be a <code>CharField</code>, and
+                        <code>body</code>, which can also be a
+                        <code>CharField</code>.
+                      </p>
+                    </li>
+                    <li>
+                      <p>
+                        If the <code>CharField</code> of your form corresponds
+                        to a model <code>CharField</code>, make sure both have
+                        the same <code>max_length</code> value.
+                      </p>
+                    </li>
+                    <li>
+                      <p>In <code>blog/forms.py</code></p>
+                    </li>
+                  </ul>
+                  <div class="highlight highlight-source-python">
+                    <pre><span class="pl-k">from</span> <span class="pl-s1">django</span> <span class="pl-k">import</span> <span class="pl-s1">forms</span>
+
+
+<span class="pl-k">class</span> <span class="pl-v">CommentForm</span>(<span class="pl-s1">forms</span>.<span class="pl-v">Form</span>):
+    <span class="pl-s1">author</span> <span class="pl-c1">=</span> <span class="pl-s1">forms</span>.<span class="pl-v">CharField</span>(
+        <span class="pl-s1">max_length</span><span class="pl-c1">=</span><span class="pl-c1">60</span>,
+        <span class="pl-s1">widget</span><span class="pl-c1">=</span><span class="pl-s1">forms</span>.<span class="pl-v">TextInput</span>(
+            <span class="pl-s1">attrs</span><span class="pl-c1">=</span>{<span class="pl-s">"class"</span>: <span class="pl-s">"form-control"</span>, <span class="pl-s">"placeholder"</span>: <span class="pl-s">"Your Name"</span>}
+        ),
+    )
+    <span class="pl-s1">body</span> <span class="pl-c1">=</span> <span class="pl-s1">forms</span>.<span class="pl-v">CharField</span>(
+        <span class="pl-s1">widget</span><span class="pl-c1">=</span><span class="pl-s1">forms</span>.<span class="pl-v">Textarea</span>(
+            <span class="pl-s1">attrs</span><span class="pl-c1">=</span>{<span class="pl-s">"class"</span>: <span class="pl-s">"form-control"</span>, <span class="pl-s">"placeholder"</span>: <span class="pl-s">"Leave a comment!"</span>}
+        )
+    )</pre>
+                  </div>
+                  <ul>
+                    <li>
+                      <p>
+                        Widget has been passed to both the fields. The author
+                        field has the forms.TextInput widget. This tells Django
+                        to load this field as an HTML text input element in the
+                        templates. The body field uses a forms.TextArea widget
+                        instead, so that the field is rendered as an HTML text
+                        area element.
+                      </p>
+                    </li>
+                    <li>
+                      <p>
+                        These widgets also take an argument attrs, which is a
+                        dictionary and allows us to specify some CSS classes,
+                        which will help with formatting the template for this
+                        view later. It also allows us to add some placeholder
+                        text.
+                      </p>
+                    </li>
+                    <li>
+                      <p>Create the <code>blog_detail()</code> view</p>
+                    </li>
+                  </ul>
+                  <div class="highlight highlight-source-python">
+                    <pre><span class="pl-k">def</span> <span class="pl-en">blog_detail</span>(<span class="pl-s1">request</span>, <span class="pl-s1">pk</span>):
+    <span class="pl-s1">post</span> <span class="pl-c1">=</span> <span class="pl-v">Post</span>.<span class="pl-s1">objects</span>.<span class="pl-en">get</span>(<span class="pl-s1">pk</span><span class="pl-c1">=</span><span class="pl-s1">pk</span>)
+    <span class="pl-s1">comments</span> <span class="pl-c1">=</span> <span class="pl-v">Comment</span>.<span class="pl-s1">objects</span>.<span class="pl-en">filter</span>(<span class="pl-s1">post</span><span class="pl-c1">=</span><span class="pl-s1">post</span>)
+    <span class="pl-s1">context</span> <span class="pl-c1">=</span> {<span class="pl-s">"post"</span>: <span class="pl-s1">post</span>, <span class="pl-s">"comments"</span>: <span class="pl-s1">comments</span>}
+
+    <span class="pl-k">return</span> <span class="pl-en">render</span>(<span class="pl-s1">request</span>, <span class="pl-s">"blog_detail.html"</span>, <span class="pl-s1">context</span>)</pre>
+                  </div>
+                  <ul>
+                    <li>
+                      <p>
+                        Set up the view function to show a specific post with a
+                        comment associated with it.
+                      </p>
+                    </li>
+                    <li>
+                      <p>
+                        The view function takes a <code>pk</code> value as an
+                        argument and retrieves the object with the given
+                        <code>pk</code>.
+                      </p>
+                    </li>
+                    <li>
+                      <p>
+                        We retrieve all the comments assigned to the given post
+                        using Django filters again.
+                      </p>
+                    </li>
+                    <li>
+                      <p>
+                        Lastly, add both post and comments to the context
+                        dictionary and render the template.
+                      </p>
+                    </li>
+                    <li>
+                      <p>
+                        When a form is posted, a POST request is sent to the
+                        server.
+                      </p>
+                    </li>
+                    <li>
+                      <p>
+                        Check if a POST request has been received and then
+                        create a comment from the form fields.
+                      </p>
+                    </li>
+                    <li>
+                      <p>
+                        Django comes with a handy <code>is_valid()</code> on its
+                        forms, so we can check that all the fields have been
+                        entered correctly.
+                      </p>
+                    </li>
+                    <li>
+                      <p>
+                        Create the comment from the form, save it using
+                        <code>save()</code> and then query the database for all
+                        the comments assigned to the given post.
+                      </p>
+                    </li>
+                  </ul>
+                  <div class="highlight highlight-source-python">
+                    <pre><span class="pl-k">def</span> <span class="pl-en">blog_detail</span>(<span class="pl-s1">request</span>, <span class="pl-s1">pk</span>):
+    <span class="pl-s1">post</span> <span class="pl-c1">=</span> <span class="pl-v">Post</span>.<span class="pl-s1">objects</span>.<span class="pl-en">get</span>(<span class="pl-s1">pk</span><span class="pl-c1">=</span><span class="pl-s1">pk</span>)
+
+    <span class="pl-s1">form</span> <span class="pl-c1">=</span> <span class="pl-v">CommentForm</span>()
+    <span class="pl-k">if</span> <span class="pl-s1">request</span>.<span class="pl-s1">method</span> <span class="pl-c1">==</span> <span class="pl-s">"POST"</span>:
+        <span class="pl-s1">form</span> <span class="pl-c1">=</span> <span class="pl-v">CommentForm</span>(<span class="pl-s1">request</span>.<span class="pl-v">POST</span>)
+        <span class="pl-k">if</span> <span class="pl-s1">form</span>.<span class="pl-en">is_valid</span>():
+            <span class="pl-s1">comment</span> <span class="pl-c1">=</span> <span class="pl-v">Comment</span>(
+                <span class="pl-s1">author</span><span class="pl-c1">=</span><span class="pl-s1">form</span>.<span class="pl-s1">cleaned_data</span>[<span class="pl-s">"author"</span>],
+                <span class="pl-s1">body</span><span class="pl-c1">=</span><span class="pl-s1">form</span>.<span class="pl-s1">cleaned_data</span>[<span class="pl-s">"body"</span>],
+                <span class="pl-s1">post</span><span class="pl-c1">=</span><span class="pl-s1">post</span>,
+            )
+            <span class="pl-s1">comment</span>.<span class="pl-en">save</span>()
+
+    <span class="pl-s1">comments</span> <span class="pl-c1">=</span> <span class="pl-v">Comment</span>.<span class="pl-s1">objects</span>.<span class="pl-en">filter</span>(<span class="pl-s1">post</span><span class="pl-c1">=</span><span class="pl-s1">post</span>)
+    <span class="pl-s1">context</span> <span class="pl-c1">=</span> {<span class="pl-s">"post"</span>: <span class="pl-s1">post</span>, <span class="pl-s">"comments"</span>: <span class="pl-s1">comments</span>, <span class="pl-s">"form"</span>: <span class="pl-s1">form</span>}
+    <span class="pl-k">return</span> <span class="pl-en">render</span>(<span class="pl-s1">request</span>, <span class="pl-s">"blog_detail.html"</span>, <span class="pl-s1">context</span>)</pre>
+                  </div>
+                  <ul>
+                    <li>
+                      If a <code>POST</code> request has been received then we
+                      create a new instance of our form, populated with the data
+                      entered into the form.
+                    </li>
+                    <li>
+                      The form is then validated using <code>is_valid()</code>.
+                      If the form is valid, a new instance of
+                      <code>Comment</code> is created.
+                    </li>
+                    <li>
+                      You can access the data from the form using
+                      <code>form.cleaned_data</code>, which is a dictionary.
+                    </li>
+                    <li>
+                      They keys of the dictionary correspond to the form fields,
+                      so you can access the author using
+                      form.cleaned_data['author'].
+                    </li>
+                    <li>
+                      Add the current post to the comment when you create it.
+                    </li>
+                  </ul>
+                  <h3>
+                    <a
+                      id="user-content-the-life-cycle-of-submitting-a-form"
+                      class="anchor"
+                      href="#the-life-cycle-of-submitting-a-form"
+                      aria-hidden="true"
+                      ><span
+                        aria-hidden="true"
+                        class="octicon octicon-link"
+                      ></span></a
+                    >The life cycle of submitting a form
+                  </h3>
+                  <ul>
+                    <li>
+                      When a user visits a page containing a form, they send a
+                      GET request to the server. In this case, there’s no data
+                      entered in the form, so we just want to render the form
+                      and display it.
+                    </li>
+                    <li>
+                      When a user enters information and clicks the Submit
+                      button, a POST request, containing the data submitted with
+                      the form, is sent to the server. At this point, the data
+                      must be processed, and two things can happen:
+                      <ol>
+                        <li>
+                          The form is valid, and the user is redirected to the
+                          next page.
+                        </li>
+                        <li>
+                          The form is invalid, and empty form is once again
+                          displayed. The user is back at step 1, and the process
+                          repeats.
+                        </li>
+                      </ol>
+                    </li>
+                  </ul>
+                  <p>
+                    The Django forms module will output some errors,
+                    <a
+                      href="https://docs.djangoproject.com/en/2.1/topics/forms/#rendering-form-error-messages"
+                      rel="nofollow"
+                      >which you can display to the user.</a
+                    >.
+                  </p>
+                  <h3>
+                    <a
+                      id="user-content-create-urlspy-file-inside-blog"
+                      class="anchor"
+                      href="#create-urlspy-file-inside-blog"
+                      aria-hidden="true"
+                      ><span
+                        aria-hidden="true"
+                        class="octicon octicon-link"
+                      ></span></a
+                    >Create urls.py file inside blog/
+                  </h3>
+                  <div class="highlight highlight-source-python">
+                    <pre><span class="pl-k">from</span> <span class="pl-s1">django</span>.<span class="pl-s1">urls</span> <span class="pl-k">import</span> <span class="pl-s1">path</span>
+<span class="pl-k">from</span> . <span class="pl-k">import</span> <span class="pl-s1">views</span>
+
+<span class="pl-s1">urlpatterns</span> <span class="pl-c1">=</span> [
+    <span class="pl-en">path</span>(<span class="pl-s">""</span>, <span class="pl-s1">views</span>.<span class="pl-s1">blog_index</span>, <span class="pl-s1">name</span><span class="pl-c1">=</span><span class="pl-s">"blog_index"</span>),
+    <span class="pl-en">path</span>(<span class="pl-s">"&lt;int:pk&gt;/"</span>, <span class="pl-s1">views</span>.<span class="pl-s1">blog_detail</span>, <span class="pl-s1">name</span><span class="pl-c1">=</span><span class="pl-s">"blog_detail"</span>),
+    <span class="pl-en">path</span>(<span class="pl-s">"&lt;category&gt;/"</span>, <span class="pl-s1">views</span>.<span class="pl-s1">blog_category</span>, <span class="pl-s1">name</span><span class="pl-c1">=</span><span class="pl-s">"blog_category"</span>),
+]</pre>
+                  </div>
+                  <h3>
+                    <a
+                      id="user-content-add-blog-to-project-urls"
+                      class="anchor"
+                      href="#add-blog-to-project-urls"
+                      aria-hidden="true"
+                      ><span
+                        aria-hidden="true"
+                        class="octicon octicon-link"
+                      ></span></a
+                    >Add blog/ to project urls
+                  </h3>
+                  <p>
+                    Once the blog-specific URLs are in place, add them to the
+                    projects URL configuration using <code>include()</code>
+                  </p>
+                  <div class="highlight highlight-source-python">
+                    <pre><span class="pl-k">from</span> <span class="pl-s1">django</span>.<span class="pl-s1">contrib</span> <span class="pl-k">import</span> <span class="pl-s1">admin</span>
+<span class="pl-k">from</span> <span class="pl-s1">django</span>.<span class="pl-s1">urls</span> <span class="pl-k">import</span> <span class="pl-s1">path</span>, <span class="pl-s1">include</span>
+
+<span class="pl-s1">urlpatterns</span> <span class="pl-c1">=</span> [
+    <span class="pl-en">path</span>(<span class="pl-s">"admin/"</span>, <span class="pl-s1">admin</span>.<span class="pl-s1">site</span>.<span class="pl-s1">urls</span>),
+    <span class="pl-en">path</span>(<span class="pl-s">"projects/"</span>, <span class="pl-en">include</span>(<span class="pl-s">"projects.urls"</span>)),
+    <span class="pl-en">path</span>(<span class="pl-s">"blog/"</span>, <span class="pl-en">include</span>(<span class="pl-s">"blog.urls"</span>)),
+]</pre>
+                  </div>
+                  <p>
+                    All the blog URLs will be prefixed with blog/, and you’ll
+                    have the following URL paths:
+                  </p>
+                  <ul>
+                    <li>localhost:8000/blog: Blog <em>index</em></li>
+                    <li>
+                      localhost:8000/blog/1: Blog detail view of blog with
+                      <em>pk=1</em>
+                    </li>
+                    <li>
+                      localhost:8000/blog/python: Blog index view of all posts
+                      with category <em>python</em>
+                    </li>
+                  </ul>
+                  <p>
+                    They each correspond to a view function in
+                    <code>blog/</code>
+                  </p>
+                  <h2>
+                    <a
+                      id="user-content-add-the-blog-templates"
+                      class="anchor"
+                      href="#add-the-blog-templates"
+                      aria-hidden="true"
+                      ><span
+                        aria-hidden="true"
+                        class="octicon octicon-link"
+                      ></span></a
+                    >Add the blog templates
+                  </h2>
+                  <h3>
+                    <a
+                      id="user-content-create-the-blog-index-in-a-new-file-blogtemplatesblog_indexhtml"
+                      class="anchor"
+                      href="#create-the-blog-index-in-a-new-file-blogtemplatesblog_indexhtml"
+                      aria-hidden="true"
+                      ><span
+                        aria-hidden="true"
+                        class="octicon octicon-link"
+                      ></span></a
+                    >Create the blog index in a new file
+                    blog/templates/blog_index.html
+                  </h3>
+                  <ul>
+                    <li>
+                      Extend the base template
+                      <code>personal_porfolio/templates/base.html</code>
+                    </li>
+                    <li>Use a for loop to loop over all the posts.</li>
+                    <li>
+                      For each post, display the title and a snippet of the
+                      body.
+                    </li>
+                  </ul>
+                  <div class="highlight highlight-text-html-basic">
+                    <pre>{% extends "base.html" %}
+{% block page_content %}
+<span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">class</span>="<span class="pl-s">col-md-8 offset-md-2</span>"<span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>Blog Index<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">hr</span><span class="pl-kos">&gt;</span>
+    {% for post in posts %}
+    <span class="pl-kos">&lt;</span><span class="pl-ent">h2</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">{% url 'blog_detail' post.pk%}</span>"<span class="pl-kos">&gt;</span>{{ post.title }}<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">h2</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">small</span><span class="pl-kos">&gt;</span>
+        {{ post.created_on.date }} |&amp;nbsp;
+        Categories:&amp;nbsp;
+        {% for category in post.categories.all %}
+        <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">{% url 'blog_category' category.name %}</span>"<span class="pl-kos">&gt;</span>
+            {{ category.name }}
+        <span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>&amp;nbsp;
+        {% endfor %}
+    <span class="pl-kos">&lt;/</span><span class="pl-ent">small</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>{{ post.body | slice:":400" }}...<span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
+    {% endfor %}
+<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+{% endblock %}</pre>
+                  </div>
+                  <ul>
+                    <li>
+                      <code
+                        >&lt;h2&gt;&lt;a href="{% url 'blog_detail'
+                        post.pk%}"&gt;{{ post.title
+                        }}&lt;/a&gt;&lt;/h2&gt;</code
+                      >
+                      has the post title
+                    </li>
+                    <li>
+                      The link is a Django link where we are pointing to the URL
+                      named blog_detail, which takes an integer as its argument
+                      and should correspond to the pk value of the post.
+                    </li>
+                    <li>
+                      We use another for loop to loop over all the categories
+                      assigned to the post.
+                    </li>
+                    <li>
+                      We use a template filter <code>slice</code> to cut off the
+                      post body at 400 characters so that the blog index is more
+                      readable.
+                    </li>
+                    <li>
+                      Access this page by visiting
+                      <code>localhost:8000/blog</code>
+                    </li>
+                  </ul>
+                  <h3>
+                    <a
+                      id="user-content-create-file-blogtemplatesblog_categoryhtml-for-the-blog_category-template"
+                      class="anchor"
+                      href="#create-file-blogtemplatesblog_categoryhtml-for-the-blog_category-template"
+                      aria-hidden="true"
+                      ><span
+                        aria-hidden="true"
+                        class="octicon octicon-link"
+                      ></span></a
+                    >Create file blog/templates/blog_category.html for the
+                    blog_category template
+                  </h3>
+                  <p>
+                    Identical to blog_index.html, except with the category name
+                    inside the <code>h1</code> tag instead of Blog Index
+                  </p>
+                  <div class="highlight highlight-text-html-basic">
+                    <pre>{% extends "base.html" %}
+{% block page_content %}
+<span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">class</span>="<span class="pl-s">col-md-8 offset-md-2</span>"<span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>{{ category | title }}<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">hr</span><span class="pl-kos">&gt;</span>
+    {% for post in posts %}
+        <span class="pl-kos">&lt;</span><span class="pl-ent">h2</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">{% url 'blog_detail' post.pk%}</span>"<span class="pl-kos">&gt;</span>{{ post.title }}<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">h2</span><span class="pl-kos">&gt;</span>
+        <span class="pl-kos">&lt;</span><span class="pl-ent">small</span><span class="pl-kos">&gt;</span>
+            {{ post.created_on.date }} |&amp;nbsp;
+            Categories:&amp;nbsp;
+            {% for category in post.categories.all %}
+            <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">{% url 'blog_category' category.name %}</span>"<span class="pl-kos">&gt;</span>
+                {{ category.name }}
+            <span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>&amp;nbsp;
+            {% endfor %}
+        <span class="pl-kos">&lt;/</span><span class="pl-ent">small</span><span class="pl-kos">&gt;</span>
+        <span class="pl-kos">&lt;</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>{{ post.body | slice:":400" }}...<span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
+    {% endfor %}
+<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+{% endblock %}</pre>
+                  </div>
+                  <ul>
+                    <li>
+                      <p>
+                        We use the Django template filter <code>title</code>.
+                        This applies <strong>titlecase</strong> to the string
+                        and makes words start with an uppercase character.
+                      </p>
+                    </li>
+                    <li>
+                      <p>
+                        Visit <code>localhost:8000/blog/python</code> and see
+                        all the posts with that category.
+                      </p>
+                    </li>
+                  </ul>
+                  <h3>
+                    <a
+                      id="user-content-create-the-blog_detail-template-at-blogtemplatesblog_detailhtml"
+                      class="anchor"
+                      href="#create-the-blog_detail-template-at-blogtemplatesblog_detailhtml"
+                      aria-hidden="true"
+                      ><span
+                        aria-hidden="true"
+                        class="octicon octicon-link"
+                      ></span></a
+                    >Create the blog_detail template at
+                    blog/templates/blog_detail.html
+                  </h3>
+                  <ul>
+                    <li>
+                      Display the date the post was created and any categories.
+                    </li>
+                    <li>
+                      Underneath that include a comments form so users can add a
+                      new comment.
+                    </li>
+                    <li>
+                      Under this, there will be a list of comments that have
+                      already been left.
+                    </li>
+                  </ul>
+                  <div class="highlight highlight-text-html-basic">
+                    <pre>{% extends "base.html" %}
+{% block page_content %}
+<span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">class</span>="<span class="pl-s">col-md-8 offset-md-2</span>"<span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>{{ post.title }}<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">small</span><span class="pl-kos">&gt;</span>
+        {{ post.created_on.date }} |&amp;nbsp;
+        Categories:&amp;nbsp;
+        {% for category in post.categories.all %}
+        <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">{% url 'blog_category' category.name %}</span>"<span class="pl-kos">&gt;</span>
+            {{ category.name }}
+        <span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>&amp;nbsp;
+        {% endfor %}
+    <span class="pl-kos">&lt;/</span><span class="pl-ent">small</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>{{ post.body | linebreaks }}<span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">h3</span><span class="pl-kos">&gt;</span>Leave a comment:<span class="pl-kos">&lt;/</span><span class="pl-ent">h3</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">form</span> <span class="pl-c1">action</span>="<span class="pl-s">/blog/{{ post.pk }}/</span>" <span class="pl-c1">method</span>="<span class="pl-s">post</span>"<span class="pl-kos">&gt;</span>
+        {% csrf_token %}
+        <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">class</span>="<span class="pl-s">form-group</span>"<span class="pl-kos">&gt;</span>
+            {{ form.author }}
+        <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+        <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">class</span>="<span class="pl-s">form-group</span>"<span class="pl-kos">&gt;</span>
+            {{ form.body }}
+        <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+        <span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">type</span>="<span class="pl-s">submit</span>" <span class="pl-c1">class</span>="<span class="pl-s">btn btn-primary</span>"<span class="pl-kos">&gt;</span>Submit<span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;/</span><span class="pl-ent">form</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">h3</span><span class="pl-kos">&gt;</span>Comments:<span class="pl-kos">&lt;/</span><span class="pl-ent">h3</span><span class="pl-kos">&gt;</span>
+    {% for comment in comments %}
+    <span class="pl-kos">&lt;</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
+        On {{comment.created_on.date }}&amp;nbsp;
+        <span class="pl-kos">&lt;</span><span class="pl-ent">b</span><span class="pl-kos">&gt;</span>{{ comment.author }}<span class="pl-kos">&lt;/</span><span class="pl-ent">b</span><span class="pl-kos">&gt;</span> wrote:
+    <span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>{{ comment.body }}<span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">hr</span><span class="pl-kos">&gt;</span>
+    {% endfor %}
+<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+{% endblock %}</pre>
+                  </div>
+                  <ul>
+                    <li>Loop over all the categories of the post.</li>
+                    <li>
+                      When rendering the post body, use a
+                      <code>linebreaks</code> template filter. This tag
+                      registers line breaks as new paragraphs, so the body
+                      doesn’t appear as one long block of text.
+                    </li>
+                    <li>Underneath the post display the comment form.</li>
+                    <li>
+                      The form action points to the URL path of the page to
+                      which you’re sending the POST request to.
+                    </li>
+                    <li>
+                      In this case, it’s the same as the page that is currently
+                      being visited.
+                    </li>
+                    <li>
+                      Add a <code>csrf_token</code>, which provides security and
+                      renders the body and author fields of the form, followed
+                      by a submit button.
+                    </li>
+                    <li>
+                      To get the bootstrap styling on the author and body
+                      fields, you need to add the form-control class to the text
+                      inputs.
+                    </li>
+                    <li>
+                      Because Django renders the inputs for you when you include
+                      {{ form.body }} and {{ form.author }}, you can’t add these
+                      classes in the template. That’s why you added the
+                      attributes to the form widgets in the previous section.
+                    </li>
+                    <li>
+                      Underneath the form, there’s another for loop that loops
+                      over all the comments on the given post. The comments,
+                      body, author, and created_on attributes are all displayed.
+                    </li>
+                    <li>
+                      Visit <code>localhost:8000/blog/1</code> and view your
+                      first post.
+                    </li>
+                  </ul>
+                  <h3>
+                    <a
+                      id="user-content-add-a-link-to-the-blog_index-to-the-navigation-bar-in-basehtml"
+                      class="anchor"
+                      href="#add-a-link-to-the-blog_index-to-the-navigation-bar-in-basehtml"
+                      aria-hidden="true"
+                      ><span
+                        aria-hidden="true"
+                        class="octicon octicon-link"
+                      ></span></a
+                    >Add a link to the blog_index to the navigation bar in
+                    base.html
+                  </h3>
+                  <div class="highlight highlight-text-html-basic">
+                    <pre><span class="pl-kos">&lt;</span><span class="pl-ent">link</span> <span class="pl-c1">rel</span>="<span class="pl-s">stylesheet</span>" <span class="pl-c1">href</span>="<span class="pl-s">https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css</span>" <span class="pl-c1">integrity</span>="<span class="pl-s">sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO</span>" <span class="pl-c1">crossorigin</span>="<span class="pl-s">anonymous</span>"<span class="pl-kos">&gt;</span>
+
+<span class="pl-kos">&lt;</span><span class="pl-ent">nav</span> <span class="pl-c1">class</span>="<span class="pl-s">navbar navbar-expand-lg navbar-light bg-light</span>"<span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">class</span>="<span class="pl-s">container</span>"<span class="pl-kos">&gt;</span>
+        <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">class</span>="<span class="pl-s">navbar-brand</span>" <span class="pl-c1">href</span>="<span class="pl-s">{% url 'project_index' %}</span>"<span class="pl-kos">&gt;</span>RP Portfolio<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
+        <span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">class</span>="<span class="pl-s">navbar-toggler</span>" <span class="pl-c1">type</span>="<span class="pl-s">button</span>" <span class="pl-c1">data-toggle</span>="<span class="pl-s">collapse</span>" <span class="pl-c1">data-target</span>="<span class="pl-s">#navbarSupportedContent</span>" <span class="pl-c1">aria-controls</span>="<span class="pl-s">navbarSupportedContent</span>" <span class="pl-c1">aria-expanded</span>="<span class="pl-s">false</span>" <span class="pl-c1">aria-label</span>="<span class="pl-s">Toggle navigation</span>"<span class="pl-kos">&gt;</span>
+          <span class="pl-kos">&lt;</span><span class="pl-ent">span</span> <span class="pl-c1">class</span>="<span class="pl-s">navbar-toggler-icon</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>
+        <span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
+
+        <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">class</span>="<span class="pl-s">collapse navbar-collapse</span>" <span class="pl-c1">id</span>="<span class="pl-s">navbarSupportedContent</span>"<span class="pl-kos">&gt;</span>
+          <span class="pl-kos">&lt;</span><span class="pl-ent">ul</span> <span class="pl-c1">class</span>="<span class="pl-s">navbar-nav mr-auto</span>"<span class="pl-kos">&gt;</span>
+            <span class="pl-kos">&lt;</span><span class="pl-ent">li</span> <span class="pl-c1">class</span>="<span class="pl-s">nav-item active</span>"<span class="pl-kos">&gt;</span>
+              <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">class</span>="<span class="pl-s">nav-link</span>" <span class="pl-c1">href</span>="<span class="pl-s">{% url 'project_index' %}</span>"<span class="pl-kos">&gt;</span>Home<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
+            <span class="pl-kos">&lt;/</span><span class="pl-ent">li</span><span class="pl-kos">&gt;</span>
+            <span class="pl-kos">&lt;</span><span class="pl-ent">li</span> <span class="pl-c1">class</span>="<span class="pl-s">nav-item</span>"<span class="pl-kos">&gt;</span>
+              <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">class</span>="<span class="pl-s">nav-link</span>" <span class="pl-c1">href</span>="<span class="pl-s">{% url 'blog_index' %}</span>"<span class="pl-kos">&gt;</span>Blog<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
+            <span class="pl-kos">&lt;/</span><span class="pl-ent">li</span><span class="pl-kos">&gt;</span>
+          <span class="pl-kos">&lt;/</span><span class="pl-ent">ul</span><span class="pl-kos">&gt;</span>
+        <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+
+<span class="pl-kos">&lt;/</span><span class="pl-ent">nav</span><span class="pl-kos">&gt;</span>
+
+<span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">class</span>="<span class="pl-s">container</span>"<span class="pl-kos">&gt;</span>
+    {% block page_content %}{% endblock %}
+<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+
+<span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>="<span class="pl-s">https://code.jquery.com/jquery-3.3.1.slim.min.js</span>" <span class="pl-c1">integrity</span>="<span class="pl-s">sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo</span>" <span class="pl-c1">crossorigin</span>="<span class="pl-s">anonymous</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>="<span class="pl-s">https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js</span>" <span class="pl-c1">integrity</span>="<span class="pl-s">sha384-ZMP7rVo3mIykV+2+9J [≈ flash energy of a typical pocket camera photoflash capacitor, 100-400 µF @ 330 V]3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49</span>" <span class="pl-c1">crossorigin</span>="<span class="pl-s">anonymous</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>="<span class="pl-s">https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js</span>" <span class="pl-c1">integrity</span>="<span class="pl-s">sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy</span>" <span class="pl-c1">crossorigin</span>="<span class="pl-s">anonymous</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span></pre>
+                  </div>
                   <h2>
                     <a
                       id="user-content-additional-information"
