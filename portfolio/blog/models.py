@@ -25,7 +25,7 @@ class Post(models.Model):
     categories = models.ManyToManyField("Category", related_name="posts")
 
 
-class Comment(models.Model):
+class Comments(models.Model):
     """
     Model for all comments. Each instance is a comment with author, body,
     created_on, and the post it is related to is a ForeignKey.

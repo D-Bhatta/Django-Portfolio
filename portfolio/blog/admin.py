@@ -1,4 +1,4 @@
-from blog.models import Category, Comment, Post
+from blog.models import Category, Comments, Post
 from django.contrib import admin
 
 
@@ -17,4 +17,4 @@ class CategoryAdmin(admin.ModelAdmin):
 
 admin.site.register(Post, PostAdmin)
 admin.site.register(Category, CategoryAdmin)
-admin.site.register(Comment, CommentAdmin)
+admin.site.register(Comments, CommentAdmin)
