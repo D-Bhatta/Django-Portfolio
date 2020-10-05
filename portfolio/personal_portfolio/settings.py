@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "projects",
 ]
 
 MIDDLEWARE = [
@@ -122,4 +123,5 @@ STATIC_URL = "/static/"
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "personal_portfolio\\static\\personal_portfolio"),
+    os.path.join(BASE_DIR, "projects\\static\\projects"),
 )
