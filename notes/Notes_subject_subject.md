@@ -461,8 +461,8 @@ A detail view that shows more information on a particular topic
 
 ### Index View
 
-- Import the Project class from models.py
-- Create a function project_index() that renders a template called project_index.html
+- Import the `Project` class from `models.py`
+- Create a function `project_index()` that renders a template called `project_index.html`
   - In the body of this function, create a Django ORM query to select all objects in the Project table
 
 ```python
