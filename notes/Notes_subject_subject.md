@@ -754,9 +754,9 @@ It allows you to create, update, and delete instances of your model classes and 
 
 - Add yourself as superuser using the following command: `python manage.py createsuperuser`
 - Enter a username followed by an email address and a password.
-- Navigate to localhost:8000/admin and log in with the credentials.
-- The User and Groups models should appear, but you’ll notice that there’s no reference to the models you’ve created yourself. That’s because you need to register them inside the admin.
-- Open the file blog/admin.py
+- Navigate to `localhost:8000/admin` and log in with the credentials.
+- The `User` and `Groups` models should appear, but you’ll notice that there’s no reference to the models you’ve created yourself. That’s because you need to register them inside the admin.
+- Open the file `blog/admin.py`
 - Import the models you want to register on the admin page.
   - Define empty classes `PostAdmin` and `CategoryAdmin`.
   - Adding attributes can customize what is shown on the admin page.
