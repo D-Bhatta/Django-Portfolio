@@ -779,11 +779,16 @@ It allows you to create, update, and delete instances of your model classes and 
   - Adding attributes can customize what is shown on the admin page.
 
 ```python
+from blog.models import Category, Comments, Post
 from django.contrib import admin
-from blog.models import Post, Category
 
 
+# Register your models here.
 class PostAdmin(admin.ModelAdmin):
+    pass
+
+
+class CommentAdmin(admin.ModelAdmin):
     pass
 
 
@@ -793,10 +798,11 @@ class CategoryAdmin(admin.ModelAdmin):
 
 admin.site.register(Post, PostAdmin)
 admin.site.register(Category, CategoryAdmin)
+admin.site.register(Comments, CommentAdmin)
 ```
 
-- We’re not adding the comments to the admin. That’s because it’s not usually necessary to edit or create comments yourself. If you wanted to add a feature where comments are moderated, then go ahead and add the Comments model too.
-- Visit `localhost:8000/admin`, and see that the `Post` and `Category` models are now visible. Add new instances of both models.
+- If you wanted to add a feature where comments are moderated, then go ahead and add the `Comments` model too.
+- Visit `localhost:8000/admin`, and see that the `Comments`, `Post` and `Category` models are now visible. Add new instances of both models.
 
 ## Add the views
 
