@@ -1,6 +1,11 @@
+import logging
+
+from blog.forms import CommentForm
 from blog.models import Comments, Post
 from django.shortcuts import render
-from forms import CommentForm
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
 
 def blog_index(request):
@@ -15,11 +20,12 @@ def blog_category(request, category):
     )
     context = {"category": category, "posts": posts}
 
-    return render(request, "blog_category.hmtl", context)
+    return render(request, "blog_category.html", context)
 
 
 def blog_detail(request, pk):
     post = Post.objects.get(pk=pk)
+    logger.debug("start")
 
     form = CommentForm()
 
@@ -33,8 +39,10 @@ def blog_detail(request, pk):
                 post=post,
             )
             comment.save()
+        else:
+            logger.error("Invalid form")
 
     comments = Comments.objects.filter(post=post)
     context = {"post": post, "comments": comments, "form": form}
 
-    return render(request, "blod_detail.html", context)
+    return render(request, "blog_detail.html", context)
