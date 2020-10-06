@@ -815,8 +815,14 @@ Create three view functions in the views.py file in the blog directory:
 - In `blog/views.py`
 
 ```python
+import logging
+
+from blog.forms import CommentForm
+from blog.models import Comments, Post
 from django.shortcuts import render
-from blog.models import Post, Comment
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
 
 def blog_index(request):
@@ -835,6 +841,7 @@ def blog_category(request, category):
         "-created_on"
     )
     context = {"category": category, "posts": posts}
+
     return render(request, "blog_category.html", context)
 ```
 
@@ -860,14 +867,10 @@ from django import forms
 class CommentForm(forms.Form):
     author = forms.CharField(
         max_length=60,
-        widget=forms.TextInput(
-            attrs={"class": "form-control", "placeholder": "Your Name"}
-        ),
+        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Name"}),
     )
     body = forms.CharField(
-        widget=forms.Textarea(
-            attrs={"class": "form-control", "placeholder": "Leave a comment!"}
-        )
+        widget=forms.Textarea(attrs={"class": "form-control", "placeholder": "Comment"})
     )
 ```
 
@@ -898,20 +901,26 @@ def blog_detail(request, pk):
 ```python
 def blog_detail(request, pk):
     post = Post.objects.get(pk=pk)
+    logger.debug("start")
 
     form = CommentForm()
+
     if request.method == "POST":
         form = CommentForm(request.POST)
+
         if form.is_valid():
-            comment = Comment(
+            comment = Comments(
                 author=form.cleaned_data["author"],
                 body=form.cleaned_data["body"],
                 post=post,
             )
             comment.save()
+        else:
+            logger.error("Invalid form")
 
-    comments = Comment.objects.filter(post=post)
+    comments = Comments.objects.filter(post=post)
     context = {"post": post, "comments": comments, "form": form}
+
     return render(request, "blog_detail.html", context)
 ```
 
@@ -948,13 +957,14 @@ urlpatterns = [
 Once the blog-specific URLs are in place, add them to the projects URL configuration using `include()`
 
 ```python
-from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
+
+from . import views
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("projects/", include("projects.urls")),
-    path("blog/", include("blog.urls")),
+    path("", views.blog_index, name="blog_index"),
+    path("<int:pk>/", views.blog_detail, name="blog_detail"),
+    path("<category>", views.blog_category, name="blog_category"),
 ]
 ```
 
@@ -975,26 +985,30 @@ They each correspond to a view function in `blog/`
 - For each post, display the title and a snippet of the body.
 
 ```html
-{% extends "base.html" %}
-{% block page_content %}
-<div class="col-md-8 offset-md-2">
-    <h1>Blog Index</h1>
-    <hr>
-    {% for post in posts %}
-    <h2><a href="{% url 'blog_detail' post.pk%}">{{ post.title }}</a></h2>
-    <small>
-        {{ post.created_on.date }} |&nbsp;
-        Categories:&nbsp;
-        {% for category in post.categories.all %}
-        <a href="{% url 'blog_category' category.name %}">
-            {{ category.name }}
-        </a>&nbsp;
-        {% endfor %}
-    </small>
-    <p>{{ post.body | slice:":400" }}...</p>
-    {% endfor %}
-</div>
+{% extends "base.html" %} {% load static %} {% block page_content %}
+{{block.super }}
+
+<body>
+  <main>
+    <section class="col-md-8 offset-md-2">
+      <h1>Blog Index</h1>
+      <hr />
+      {% for post in posts %}
+      <h2><a href="{% url 'blog_detail' post.pk %}">{{post.title}}</a></h2>
+      <small>
+        {{post.created_on.date}} |&nbsp; Categories:&nbsp; {% for category in
+        post.categories.all %}
+        <a href="{% url 'blog_category' category.name %}"> {{category.name}} </a
+        >&nbsp; {% endfor %}
+      </small>
+      <p>{{post.body | slice:":400"}}...</p>
+      {% endfor %}
+    </section>
+  </main>
+</body>
+
 {% endblock %}
+
 ```
 
 - `<h2><a href="{% url 'blog_detail' post.pk%}">{{ post.title }}</a></h2>` has the post title
@@ -1008,26 +1022,30 @@ They each correspond to a view function in `blog/`
 Identical to blog_index.html, except with the category name inside the `h1` tag instead of Blog Index
 
 ```html
-{% extends "base.html" %}
-{% block page_content %}
-<div class="col-md-8 offset-md-2">
-    <h1>{{ category | title }}</h1>
-    <hr>
-    {% for post in posts %}
-        <h2><a href="{% url 'blog_detail' post.pk%}">{{ post.title }}</a></h2>
-        <small>
-            {{ post.created_on.date }} |&nbsp;
-            Categories:&nbsp;
-            {% for category in post.categories.all %}
-            <a href="{% url 'blog_category' category.name %}">
-                {{ category.name }}
-            </a>&nbsp;
-            {% endfor %}
-        </small>
-        <p>{{ post.body | slice:":400" }}...</p>
-    {% endfor %}
-</div>
+{% extends "base.html" %} {% load static %} {% block page_content %}
+{{block.super }}
+
+<body>
+  <main>
+    <section class="col-md-8 offset-md-2">
+      <h1>{{ category | title}}</h1>
+      <hr />
+      {% for post in posts %}
+      <h2><a href="{% url 'blog_detail' post.pk %}">{{post.title}}</a></h2>
+      <small>
+        {{post.created_on.date}} |&nbsp; Categories:&nbsp; {% for category in
+        post.categories.all %}
+        <a href="{% url 'blog_category' category.name %}"> {{category.name}} </a
+        >&nbsp; {% endfor %}
+      </small>
+      <p>{{post.body | slice:":400"}}</p>
+      {% endfor %}
+    </section>
+  </main>
+</body>
+
 {% endblock %}
+
 ```
 
 - We use the Django template filter `title`. This applies **titlecase** to the string and makes words start with an uppercase character.
@@ -1041,41 +1059,40 @@ Identical to blog_index.html, except with the category name inside the `h1` tag 
 - Under this, there will be a list of comments that have already been left.
 
 ```html
-{% extends "base.html" %}
-{% block page_content %}
-<div class="col-md-8 offset-md-2">
-    <h1>{{ post.title }}</h1>
-    <small>
-        {{ post.created_on.date }} |&nbsp;
-        Categories:&nbsp;
-        {% for category in post.categories.all %}
-        <a href="{% url 'blog_category' category.name %}">
-            {{ category.name }}
-        </a>&nbsp;
-        {% endfor %}
-    </small>
-    <p>{{ post.body | linebreaks }}</p>
-    <h3>Leave a comment:</h3>
-    <form action="/blog/{{ post.pk }}/" method="post">
+{% extends "base.html" %} {% load static %} {% block page_content %}
+{{block.super }}
+
+<body>
+  <main>
+    <section class="col-md8 offset-md-2">
+      <h1>{{post.title}}</h1>
+      <small
+        >{{post.created_on.date}} |&nbsp; Categories:&nbsp; {% for category in
+        post.categories.all %}
+        <a href="{% url 'blog_category' category.name %}">{{category.name}}</a
+        >&nbsp; {% endfor %}
+      </small>
+      <p>{{post.body | linebreaks}}</p>
+      <h3>Leave a comment:</h3>
+      <form action="/blog/{{post.pk}}/" method="POST">
         {% csrf_token %}
-        <div class="form-group">
-            {{ form.author }}
-        </div>
-        <div class="form-group">
-            {{ form.body }}
-        </div>
+        <div class="form-group">{{form.author}}</div>
+        <div class="form-group">{{form.body}}</div>
         <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-    <h3>Comments:</h3>
-    {% for comment in comments %}
-    <p>
-        On {{comment.created_on.date }}&nbsp;
-        <b>{{ comment.author }}</b> wrote:
-    </p>
-    <p>{{ comment.body }}</p>
-    <hr>
-    {% endfor %}
-</div>
+      </form>
+      <h3>Comments:</h3>
+      {% for comment in comments %}
+      <p>
+        On {{comment.created_on.date}}&nbsp;
+        <b>{{comment.author}}</b> &nbsp;wrote:
+      </p>
+      <p>{{comment.body}}</p>
+      <hr />
+      {% endfor %}
+    </section>
+  </main>
+</body>
+
 {% endblock %}
 
 ```
