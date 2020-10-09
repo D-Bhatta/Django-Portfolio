@@ -47360,8 +47360,14 @@ Running migrations:
                   <div class="highlight highlight-source-python">
                     <pre><span class="pl-k">from</span> <span class="pl-s1">django</span>.<span class="pl-s1">db</span> <span class="pl-k">import</span> <span class="pl-s1">models</span>
 
+<span class="pl-c"># Category model</span>
+
 
 <span class="pl-k">class</span> <span class="pl-v">Category</span>(<span class="pl-s1">models</span>.<span class="pl-v">Model</span>):
+    <span class="pl-s">"""</span>
+<span class="pl-s">    Model for categories. Each instance is a category.</span>
+<span class="pl-s">    """</span>
+
     <span class="pl-s1">name</span> <span class="pl-c1">=</span> <span class="pl-s1">models</span>.<span class="pl-v">CharField</span>(<span class="pl-s1">max_length</span><span class="pl-c1">=</span><span class="pl-c1">20</span>)</pre>
                   </div>
                   <ul>
@@ -47384,6 +47390,12 @@ Running migrations:
                   </h4>
                   <div class="highlight highlight-source-python">
                     <pre><span class="pl-k">class</span> <span class="pl-v">Post</span>(<span class="pl-s1">models</span>.<span class="pl-v">Model</span>):
+    <span class="pl-s">"""</span>
+<span class="pl-s">    Model for all posts. Each instance is a post with title, body, and dates</span>
+<span class="pl-s">    of creation and modification. Also has a many to many relation to</span>
+<span class="pl-s">    Categories.</span>
+<span class="pl-s">    """</span>
+
     <span class="pl-s1">title</span> <span class="pl-c1">=</span> <span class="pl-s1">models</span>.<span class="pl-v">CharField</span>(<span class="pl-s1">max_length</span><span class="pl-c1">=</span><span class="pl-c1">255</span>)
     <span class="pl-s1">body</span> <span class="pl-c1">=</span> <span class="pl-s1">models</span>.<span class="pl-v">TextField</span>()
     <span class="pl-s1">created_on</span> <span class="pl-c1">=</span> <span class="pl-s1">models</span>.<span class="pl-v">DateTimeField</span>(<span class="pl-s1">auto_now_add</span><span class="pl-c1">=</span><span class="pl-c1">True</span>)
@@ -47446,7 +47458,12 @@ Running migrations:
                     >Comments
                   </h4>
                   <div class="highlight highlight-source-python">
-                    <pre><span class="pl-k">class</span> <span class="pl-v">Comment</span>(<span class="pl-s1">models</span>.<span class="pl-v">Model</span>):
+                    <pre><span class="pl-k">class</span> <span class="pl-v">Comments</span>(<span class="pl-s1">models</span>.<span class="pl-v">Model</span>):
+    <span class="pl-s">"""</span>
+<span class="pl-s">    Model for all comments. Each instance is a comment with author, body,</span>
+<span class="pl-s">    created_on, and the post it is related to is a ForeignKey.</span>
+<span class="pl-s">    """</span>
+
     <span class="pl-s1">author</span> <span class="pl-c1">=</span> <span class="pl-s1">models</span>.<span class="pl-v">CharField</span>(<span class="pl-s1">max_length</span><span class="pl-c1">=</span><span class="pl-c1">60</span>)
     <span class="pl-s1">body</span> <span class="pl-c1">=</span> <span class="pl-s1">models</span>.<span class="pl-v">TextField</span>()
     <span class="pl-s1">created_on</span> <span class="pl-c1">=</span> <span class="pl-s1">models</span>.<span class="pl-v">DateTimeField</span>(<span class="pl-s1">auto_now_add</span><span class="pl-c1">=</span><span class="pl-c1">True</span>)
@@ -47533,16 +47550,16 @@ Running migrations:
                       password.
                     </li>
                     <li>
-                      Navigate to localhost:8000/admin and log in with the
-                      credentials.
+                      Navigate to <code>localhost:8000/admin</code> and log in
+                      with the credentials.
                     </li>
                     <li>
-                      The User and Groups models should appear, but you’ll
-                      notice that there’s no reference to the models you’ve
-                      created yourself. That’s because you need to register them
-                      inside the admin.
+                      The <code>User</code> and <code>Groups</code> models
+                      should appear, but you’ll notice that there’s no reference
+                      to the models you’ve created yourself. That’s because you
+                      need to register them inside the admin.
                     </li>
-                    <li>Open the file blog/admin.py</li>
+                    <li>Open the file <code>blog/admin.py</code></li>
                     <li>
                       Import the models you want to register on the admin page.
                       <ul>
@@ -47558,11 +47575,16 @@ Running migrations:
                     </li>
                   </ul>
                   <div class="highlight highlight-source-python">
-                    <pre><span class="pl-k">from</span> <span class="pl-s1">django</span>.<span class="pl-s1">contrib</span> <span class="pl-k">import</span> <span class="pl-s1">admin</span>
-<span class="pl-k">from</span> <span class="pl-s1">blog</span>.<span class="pl-s1">models</span> <span class="pl-k">import</span> <span class="pl-v">Post</span>, <span class="pl-v">Category</span>
+                    <pre><span class="pl-k">from</span> <span class="pl-s1">blog</span>.<span class="pl-s1">models</span> <span class="pl-k">import</span> <span class="pl-v">Category</span>, <span class="pl-v">Comments</span>, <span class="pl-v">Post</span>
+<span class="pl-k">from</span> <span class="pl-s1">django</span>.<span class="pl-s1">contrib</span> <span class="pl-k">import</span> <span class="pl-s1">admin</span>
 
 
+<span class="pl-c"># Register your models here.</span>
 <span class="pl-k">class</span> <span class="pl-v">PostAdmin</span>(<span class="pl-s1">admin</span>.<span class="pl-v">ModelAdmin</span>):
+    <span class="pl-k">pass</span>
+
+
+<span class="pl-k">class</span> <span class="pl-v">CommentAdmin</span>(<span class="pl-s1">admin</span>.<span class="pl-v">ModelAdmin</span>):
     <span class="pl-k">pass</span>
 
 
@@ -47571,20 +47593,20 @@ Running migrations:
 
 
 <span class="pl-s1">admin</span>.<span class="pl-s1">site</span>.<span class="pl-en">register</span>(<span class="pl-v">Post</span>, <span class="pl-v">PostAdmin</span>)
-<span class="pl-s1">admin</span>.<span class="pl-s1">site</span>.<span class="pl-en">register</span>(<span class="pl-v">Category</span>, <span class="pl-v">CategoryAdmin</span>)</pre>
+<span class="pl-s1">admin</span>.<span class="pl-s1">site</span>.<span class="pl-en">register</span>(<span class="pl-v">Category</span>, <span class="pl-v">CategoryAdmin</span>)
+<span class="pl-s1">admin</span>.<span class="pl-s1">site</span>.<span class="pl-en">register</span>(<span class="pl-v">Comments</span>, <span class="pl-v">CommentAdmin</span>)</pre>
                   </div>
                   <ul>
                     <li>
-                      We’re not adding the comments to the admin. That’s because
-                      it’s not usually necessary to edit or create comments
-                      yourself. If you wanted to add a feature where comments
-                      are moderated, then go ahead and add the Comments model
-                      too.
+                      If you wanted to add a feature where comments are
+                      moderated, then go ahead and add the
+                      <code>Comments</code> model too.
                     </li>
                     <li>
                       Visit <code>localhost:8000/admin</code>, and see that the
-                      <code>Post</code> and <code>Category</code> models are now
-                      visible. Add new instances of both models.
+                      <code>Comments</code>, <code>Post</code> and
+                      <code>Category</code> models are now visible. Add new
+                      instances of both models.
                     </li>
                   </ul>
                   <h2>
@@ -47629,8 +47651,14 @@ Running migrations:
                     </li>
                   </ul>
                   <div class="highlight highlight-source-python">
-                    <pre><span class="pl-k">from</span> <span class="pl-s1">django</span>.<span class="pl-s1">shortcuts</span> <span class="pl-k">import</span> <span class="pl-s1">render</span>
-<span class="pl-k">from</span> <span class="pl-s1">blog</span>.<span class="pl-s1">models</span> <span class="pl-k">import</span> <span class="pl-v">Post</span>, <span class="pl-v">Comment</span>
+                    <pre><span class="pl-k">import</span> <span class="pl-s1">logging</span>
+
+<span class="pl-k">from</span> <span class="pl-s1">blog</span>.<span class="pl-s1">forms</span> <span class="pl-k">import</span> <span class="pl-v">CommentForm</span>
+<span class="pl-k">from</span> <span class="pl-s1">blog</span>.<span class="pl-s1">models</span> <span class="pl-k">import</span> <span class="pl-v">Comments</span>, <span class="pl-v">Post</span>
+<span class="pl-k">from</span> <span class="pl-s1">django</span>.<span class="pl-s1">shortcuts</span> <span class="pl-k">import</span> <span class="pl-s1">render</span>
+
+<span class="pl-s1">logger</span> <span class="pl-c1">=</span> <span class="pl-s1">logging</span>.<span class="pl-en">getLogger</span>(<span class="pl-s1">__name__</span>)
+<span class="pl-s1">logger</span>.<span class="pl-en">setLevel</span>(<span class="pl-s1">logging</span>.<span class="pl-v">DEBUG</span>)
 
 
 <span class="pl-k">def</span> <span class="pl-en">blog_index</span>(<span class="pl-s1">request</span>):
@@ -47657,6 +47685,7 @@ Running migrations:
         <span class="pl-s">"-created_on"</span>
     )
     <span class="pl-s1">context</span> <span class="pl-c1">=</span> {<span class="pl-s">"category"</span>: <span class="pl-s1">category</span>, <span class="pl-s">"posts"</span>: <span class="pl-s1">posts</span>}
+
     <span class="pl-k">return</span> <span class="pl-en">render</span>(<span class="pl-s1">request</span>, <span class="pl-s">"blog_category.html"</span>, <span class="pl-s1">context</span>)</pre>
                   </div>
                   <ul>
@@ -47739,14 +47768,10 @@ Running migrations:
 <span class="pl-k">class</span> <span class="pl-v">CommentForm</span>(<span class="pl-s1">forms</span>.<span class="pl-v">Form</span>):
     <span class="pl-s1">author</span> <span class="pl-c1">=</span> <span class="pl-s1">forms</span>.<span class="pl-v">CharField</span>(
         <span class="pl-s1">max_length</span><span class="pl-c1">=</span><span class="pl-c1">60</span>,
-        <span class="pl-s1">widget</span><span class="pl-c1">=</span><span class="pl-s1">forms</span>.<span class="pl-v">TextInput</span>(
-            <span class="pl-s1">attrs</span><span class="pl-c1">=</span>{<span class="pl-s">"class"</span>: <span class="pl-s">"form-control"</span>, <span class="pl-s">"placeholder"</span>: <span class="pl-s">"Your Name"</span>}
-        ),
+        <span class="pl-s1">widget</span><span class="pl-c1">=</span><span class="pl-s1">forms</span>.<span class="pl-v">TextInput</span>(<span class="pl-s1">attrs</span><span class="pl-c1">=</span>{<span class="pl-s">"class"</span>: <span class="pl-s">"form-control"</span>, <span class="pl-s">"placeholder"</span>: <span class="pl-s">"Name"</span>}),
     )
     <span class="pl-s1">body</span> <span class="pl-c1">=</span> <span class="pl-s1">forms</span>.<span class="pl-v">CharField</span>(
-        <span class="pl-s1">widget</span><span class="pl-c1">=</span><span class="pl-s1">forms</span>.<span class="pl-v">Textarea</span>(
-            <span class="pl-s1">attrs</span><span class="pl-c1">=</span>{<span class="pl-s">"class"</span>: <span class="pl-s">"form-control"</span>, <span class="pl-s">"placeholder"</span>: <span class="pl-s">"Leave a comment!"</span>}
-        )
+        <span class="pl-s1">widget</span><span class="pl-c1">=</span><span class="pl-s1">forms</span>.<span class="pl-v">Textarea</span>(<span class="pl-s1">attrs</span><span class="pl-c1">=</span>{<span class="pl-s">"class"</span>: <span class="pl-s">"form-control"</span>, <span class="pl-s">"placeholder"</span>: <span class="pl-s">"Comment"</span>})
     )</pre>
                   </div>
                   <ul>
@@ -47837,20 +47862,26 @@ Running migrations:
                   <div class="highlight highlight-source-python">
                     <pre><span class="pl-k">def</span> <span class="pl-en">blog_detail</span>(<span class="pl-s1">request</span>, <span class="pl-s1">pk</span>):
     <span class="pl-s1">post</span> <span class="pl-c1">=</span> <span class="pl-v">Post</span>.<span class="pl-s1">objects</span>.<span class="pl-en">get</span>(<span class="pl-s1">pk</span><span class="pl-c1">=</span><span class="pl-s1">pk</span>)
+    <span class="pl-s1">logger</span>.<span class="pl-en">debug</span>(<span class="pl-s">"start"</span>)
 
     <span class="pl-s1">form</span> <span class="pl-c1">=</span> <span class="pl-v">CommentForm</span>()
+
     <span class="pl-k">if</span> <span class="pl-s1">request</span>.<span class="pl-s1">method</span> <span class="pl-c1">==</span> <span class="pl-s">"POST"</span>:
         <span class="pl-s1">form</span> <span class="pl-c1">=</span> <span class="pl-v">CommentForm</span>(<span class="pl-s1">request</span>.<span class="pl-v">POST</span>)
+
         <span class="pl-k">if</span> <span class="pl-s1">form</span>.<span class="pl-en">is_valid</span>():
-            <span class="pl-s1">comment</span> <span class="pl-c1">=</span> <span class="pl-v">Comment</span>(
+            <span class="pl-s1">comment</span> <span class="pl-c1">=</span> <span class="pl-v">Comments</span>(
                 <span class="pl-s1">author</span><span class="pl-c1">=</span><span class="pl-s1">form</span>.<span class="pl-s1">cleaned_data</span>[<span class="pl-s">"author"</span>],
                 <span class="pl-s1">body</span><span class="pl-c1">=</span><span class="pl-s1">form</span>.<span class="pl-s1">cleaned_data</span>[<span class="pl-s">"body"</span>],
                 <span class="pl-s1">post</span><span class="pl-c1">=</span><span class="pl-s1">post</span>,
             )
             <span class="pl-s1">comment</span>.<span class="pl-en">save</span>()
+        <span class="pl-k">else</span>:
+            <span class="pl-s1">logger</span>.<span class="pl-en">error</span>(<span class="pl-s">"Invalid form"</span>)
 
-    <span class="pl-s1">comments</span> <span class="pl-c1">=</span> <span class="pl-v">Comment</span>.<span class="pl-s1">objects</span>.<span class="pl-en">filter</span>(<span class="pl-s1">post</span><span class="pl-c1">=</span><span class="pl-s1">post</span>)
+    <span class="pl-s1">comments</span> <span class="pl-c1">=</span> <span class="pl-v">Comments</span>.<span class="pl-s1">objects</span>.<span class="pl-en">filter</span>(<span class="pl-s1">post</span><span class="pl-c1">=</span><span class="pl-s1">post</span>)
     <span class="pl-s1">context</span> <span class="pl-c1">=</span> {<span class="pl-s">"post"</span>: <span class="pl-s1">post</span>, <span class="pl-s">"comments"</span>: <span class="pl-s1">comments</span>, <span class="pl-s">"form"</span>: <span class="pl-s1">form</span>}
+
     <span class="pl-k">return</span> <span class="pl-en">render</span>(<span class="pl-s1">request</span>, <span class="pl-s">"blog_detail.html"</span>, <span class="pl-s1">context</span>)</pre>
                   </div>
                   <ul>
@@ -47961,13 +47992,14 @@ Running migrations:
                     projects URL configuration using <code>include()</code>
                   </p>
                   <div class="highlight highlight-source-python">
-                    <pre><span class="pl-k">from</span> <span class="pl-s1">django</span>.<span class="pl-s1">contrib</span> <span class="pl-k">import</span> <span class="pl-s1">admin</span>
-<span class="pl-k">from</span> <span class="pl-s1">django</span>.<span class="pl-s1">urls</span> <span class="pl-k">import</span> <span class="pl-s1">path</span>, <span class="pl-s1">include</span>
+                    <pre><span class="pl-k">from</span> <span class="pl-s1">django</span>.<span class="pl-s1">urls</span> <span class="pl-k">import</span> <span class="pl-s1">path</span>
+
+<span class="pl-k">from</span> . <span class="pl-k">import</span> <span class="pl-s1">views</span>
 
 <span class="pl-s1">urlpatterns</span> <span class="pl-c1">=</span> [
-    <span class="pl-en">path</span>(<span class="pl-s">"admin/"</span>, <span class="pl-s1">admin</span>.<span class="pl-s1">site</span>.<span class="pl-s1">urls</span>),
-    <span class="pl-en">path</span>(<span class="pl-s">"projects/"</span>, <span class="pl-en">include</span>(<span class="pl-s">"projects.urls"</span>)),
-    <span class="pl-en">path</span>(<span class="pl-s">"blog/"</span>, <span class="pl-en">include</span>(<span class="pl-s">"blog.urls"</span>)),
+    <span class="pl-en">path</span>(<span class="pl-s">""</span>, <span class="pl-s1">views</span>.<span class="pl-s1">blog_index</span>, <span class="pl-s1">name</span><span class="pl-c1">=</span><span class="pl-s">"blog_index"</span>),
+    <span class="pl-en">path</span>(<span class="pl-s">"&lt;int:pk&gt;/"</span>, <span class="pl-s1">views</span>.<span class="pl-s1">blog_detail</span>, <span class="pl-s1">name</span><span class="pl-c1">=</span><span class="pl-s">"blog_detail"</span>),
+    <span class="pl-en">path</span>(<span class="pl-s">"&lt;category&gt;"</span>, <span class="pl-s1">views</span>.<span class="pl-s1">blog_category</span>, <span class="pl-s1">name</span><span class="pl-c1">=</span><span class="pl-s">"blog_category"</span>),
 ]</pre>
                   </div>
                   <p>
@@ -48026,25 +48058,28 @@ Running migrations:
                     </li>
                   </ul>
                   <div class="highlight highlight-text-html-basic">
-                    <pre>{% extends "base.html" %}
-{% block page_content %}
-<span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">class</span>="<span class="pl-s">col-md-8 offset-md-2</span>"<span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>Blog Index<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;</span><span class="pl-ent">hr</span><span class="pl-kos">&gt;</span>
-    {% for post in posts %}
-    <span class="pl-kos">&lt;</span><span class="pl-ent">h2</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">{% url 'blog_detail' post.pk%}</span>"<span class="pl-kos">&gt;</span>{{ post.title }}<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">h2</span><span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;</span><span class="pl-ent">small</span><span class="pl-kos">&gt;</span>
-        {{ post.created_on.date }} |&amp;nbsp;
-        Categories:&amp;nbsp;
-        {% for category in post.categories.all %}
-        <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">{% url 'blog_category' category.name %}</span>"<span class="pl-kos">&gt;</span>
-            {{ category.name }}
-        <span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>&amp;nbsp;
-        {% endfor %}
-    <span class="pl-kos">&lt;/</span><span class="pl-ent">small</span><span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>{{ post.body | slice:":400" }}...<span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
-    {% endfor %}
-<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+                    <pre>{% extends "base.html" %} {% load static %} {% block page_content %}
+{{block.super }}
+
+<span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">section</span> <span class="pl-c1">class</span>="<span class="pl-s">col-md-8 offset-md-2</span>"<span class="pl-kos">&gt;</span>
+      <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>Blog Index<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+      <span class="pl-kos">&lt;</span><span class="pl-ent">hr</span> /&gt;
+      {% for post in posts %}
+      <span class="pl-kos">&lt;</span><span class="pl-ent">h2</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">{% url 'blog_detail' post.pk %}</span>"<span class="pl-kos">&gt;</span>{{post.title}}<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">h2</span><span class="pl-kos">&gt;</span>
+      <span class="pl-kos">&lt;</span><span class="pl-ent">small</span><span class="pl-kos">&gt;</span>
+        {{post.created_on.date}} |&amp;nbsp; Categories:&amp;nbsp; {% for category in
+        post.categories.all %}
+        <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">{% url 'blog_category' category.name %}</span>"<span class="pl-kos">&gt;</span> {{category.name}} <span class="pl-kos">&lt;/</span><span class="pl-ent">a</span>
+        <span class="pl-kos">&gt;</span>&amp;nbsp; {% endfor %}
+      <span class="pl-kos">&lt;/</span><span class="pl-ent">small</span><span class="pl-kos">&gt;</span>
+      <span class="pl-kos">&lt;</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>{{post.body | slice:":400"}}...<span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
+      {% endfor %}
+    <span class="pl-kos">&lt;/</span><span class="pl-ent">section</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+
 {% endblock %}</pre>
                   </div>
                   <ul>
@@ -48093,25 +48128,28 @@ Running migrations:
                     inside the <code>h1</code> tag instead of Blog Index
                   </p>
                   <div class="highlight highlight-text-html-basic">
-                    <pre>{% extends "base.html" %}
-{% block page_content %}
-<span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">class</span>="<span class="pl-s">col-md-8 offset-md-2</span>"<span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>{{ category | title }}<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;</span><span class="pl-ent">hr</span><span class="pl-kos">&gt;</span>
-    {% for post in posts %}
-        <span class="pl-kos">&lt;</span><span class="pl-ent">h2</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">{% url 'blog_detail' post.pk%}</span>"<span class="pl-kos">&gt;</span>{{ post.title }}<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">h2</span><span class="pl-kos">&gt;</span>
-        <span class="pl-kos">&lt;</span><span class="pl-ent">small</span><span class="pl-kos">&gt;</span>
-            {{ post.created_on.date }} |&amp;nbsp;
-            Categories:&amp;nbsp;
-            {% for category in post.categories.all %}
-            <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">{% url 'blog_category' category.name %}</span>"<span class="pl-kos">&gt;</span>
-                {{ category.name }}
-            <span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>&amp;nbsp;
-            {% endfor %}
-        <span class="pl-kos">&lt;/</span><span class="pl-ent">small</span><span class="pl-kos">&gt;</span>
-        <span class="pl-kos">&lt;</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>{{ post.body | slice:":400" }}...<span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
-    {% endfor %}
-<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+                    <pre>{% extends "base.html" %} {% load static %} {% block page_content %}
+{{block.super }}
+
+<span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">section</span> <span class="pl-c1">class</span>="<span class="pl-s">col-md-8 offset-md-2</span>"<span class="pl-kos">&gt;</span>
+      <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>{{ category | title}}<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+      <span class="pl-kos">&lt;</span><span class="pl-ent">hr</span> /&gt;
+      {% for post in posts %}
+      <span class="pl-kos">&lt;</span><span class="pl-ent">h2</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">{% url 'blog_detail' post.pk %}</span>"<span class="pl-kos">&gt;</span>{{post.title}}<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">h2</span><span class="pl-kos">&gt;</span>
+      <span class="pl-kos">&lt;</span><span class="pl-ent">small</span><span class="pl-kos">&gt;</span>
+        {{post.created_on.date}} |&amp;nbsp; Categories:&amp;nbsp; {% for category in
+        post.categories.all %}
+        <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">{% url 'blog_category' category.name %}</span>"<span class="pl-kos">&gt;</span> {{category.name}} <span class="pl-kos">&lt;/</span><span class="pl-ent">a</span>
+        <span class="pl-kos">&gt;</span>&amp;nbsp; {% endfor %}
+      <span class="pl-kos">&lt;/</span><span class="pl-ent">small</span><span class="pl-kos">&gt;</span>
+      <span class="pl-kos">&lt;</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>{{post.body | slice:":400"}}<span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
+      {% endfor %}
+    <span class="pl-kos">&lt;/</span><span class="pl-ent">section</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+
 {% endblock %}</pre>
                   </div>
                   <ul>
@@ -48156,41 +48194,40 @@ Running migrations:
                     </li>
                   </ul>
                   <div class="highlight highlight-text-html-basic">
-                    <pre>{% extends "base.html" %}
-{% block page_content %}
-<span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">class</span>="<span class="pl-s">col-md-8 offset-md-2</span>"<span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>{{ post.title }}<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;</span><span class="pl-ent">small</span><span class="pl-kos">&gt;</span>
-        {{ post.created_on.date }} |&amp;nbsp;
-        Categories:&amp;nbsp;
-        {% for category in post.categories.all %}
-        <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">{% url 'blog_category' category.name %}</span>"<span class="pl-kos">&gt;</span>
-            {{ category.name }}
-        <span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>&amp;nbsp;
-        {% endfor %}
-    <span class="pl-kos">&lt;/</span><span class="pl-ent">small</span><span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>{{ post.body | linebreaks }}<span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;</span><span class="pl-ent">h3</span><span class="pl-kos">&gt;</span>Leave a comment:<span class="pl-kos">&lt;/</span><span class="pl-ent">h3</span><span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;</span><span class="pl-ent">form</span> <span class="pl-c1">action</span>="<span class="pl-s">/blog/{{ post.pk }}/</span>" <span class="pl-c1">method</span>="<span class="pl-s">post</span>"<span class="pl-kos">&gt;</span>
+                    <pre>{% extends "base.html" %} {% load static %} {% block page_content %}
+{{block.super }}
+
+<span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">section</span> <span class="pl-c1">class</span>="<span class="pl-s">col-md8 offset-md-2</span>"<span class="pl-kos">&gt;</span>
+      <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>{{post.title}}<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+      <span class="pl-kos">&lt;</span><span class="pl-ent">small</span>
+        <span class="pl-kos">&gt;</span>{{post.created_on.date}} |&amp;nbsp; Categories:&amp;nbsp; {% for category in
+        post.categories.all %}
+        <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">{% url 'blog_category' category.name %}</span>"<span class="pl-kos">&gt;</span>{{category.name}}<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span>
+        <span class="pl-kos">&gt;</span>&amp;nbsp; {% endfor %}
+      <span class="pl-kos">&lt;/</span><span class="pl-ent">small</span><span class="pl-kos">&gt;</span>
+      <span class="pl-kos">&lt;</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>{{post.body | linebreaks}}<span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
+      <span class="pl-kos">&lt;</span><span class="pl-ent">h3</span><span class="pl-kos">&gt;</span>Leave a comment:<span class="pl-kos">&lt;/</span><span class="pl-ent">h3</span><span class="pl-kos">&gt;</span>
+      <span class="pl-kos">&lt;</span><span class="pl-ent">form</span> <span class="pl-c1">action</span>="<span class="pl-s">/blog/{{post.pk}}/</span>" <span class="pl-c1">method</span>="<span class="pl-s">POST</span>"<span class="pl-kos">&gt;</span>
         {% csrf_token %}
-        <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">class</span>="<span class="pl-s">form-group</span>"<span class="pl-kos">&gt;</span>
-            {{ form.author }}
-        <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
-        <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">class</span>="<span class="pl-s">form-group</span>"<span class="pl-kos">&gt;</span>
-            {{ form.body }}
-        <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+        <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">class</span>="<span class="pl-s">form-group</span>"<span class="pl-kos">&gt;</span>{{form.author}}<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+        <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">class</span>="<span class="pl-s">form-group</span>"<span class="pl-kos">&gt;</span>{{form.body}}<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
         <span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">type</span>="<span class="pl-s">submit</span>" <span class="pl-c1">class</span>="<span class="pl-s">btn btn-primary</span>"<span class="pl-kos">&gt;</span>Submit<span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;/</span><span class="pl-ent">form</span><span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;</span><span class="pl-ent">h3</span><span class="pl-kos">&gt;</span>Comments:<span class="pl-kos">&lt;/</span><span class="pl-ent">h3</span><span class="pl-kos">&gt;</span>
-    {% for comment in comments %}
-    <span class="pl-kos">&lt;</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
-        On {{comment.created_on.date }}&amp;nbsp;
-        <span class="pl-kos">&lt;</span><span class="pl-ent">b</span><span class="pl-kos">&gt;</span>{{ comment.author }}<span class="pl-kos">&lt;/</span><span class="pl-ent">b</span><span class="pl-kos">&gt;</span> wrote:
-    <span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>{{ comment.body }}<span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;</span><span class="pl-ent">hr</span><span class="pl-kos">&gt;</span>
-    {% endfor %}
-<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+      <span class="pl-kos">&lt;/</span><span class="pl-ent">form</span><span class="pl-kos">&gt;</span>
+      <span class="pl-kos">&lt;</span><span class="pl-ent">h3</span><span class="pl-kos">&gt;</span>Comments:<span class="pl-kos">&lt;/</span><span class="pl-ent">h3</span><span class="pl-kos">&gt;</span>
+      {% for comment in comments %}
+      <span class="pl-kos">&lt;</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
+        On {{comment.created_on.date}}&amp;nbsp;
+        <span class="pl-kos">&lt;</span><span class="pl-ent">b</span><span class="pl-kos">&gt;</span>{{comment.author}}<span class="pl-kos">&lt;/</span><span class="pl-ent">b</span><span class="pl-kos">&gt;</span> &amp;nbsp;wrote:
+      <span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
+      <span class="pl-kos">&lt;</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>{{comment.body}}<span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
+      <span class="pl-kos">&lt;</span><span class="pl-ent">hr</span> /&gt;
+      {% endfor %}
+    <span class="pl-kos">&lt;/</span><span class="pl-ent">section</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+
 {% endblock %}</pre>
                   </div>
                   <ul>

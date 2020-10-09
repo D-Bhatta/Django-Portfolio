@@ -195,12 +195,12 @@ def hello_world(request):
 - The view function takes one argument, `request`.
 - This object is an `HttpRequestObject` that is created whenever a page is loaded.
 - It contains information about the `request`, such as the method, which can take several values including `GET` and `POST`.
-- We now need to create the HTML template to display to the user.
-- `render()` looks for HTML templates inside a directory called `templates` inside the app's directory(App being `hello_world` here).
-- This function will handle views and templates to display to the user.
 
 ### Create a HTML template
 
+- We now need to create the HTML template to display to the user.
+- `render()` looks for HTML templates inside a directory called `templates` inside the app's directory(App being `hello_world` here).
+- This function will handle views and templates to display to the user.
 - Create that directory and subsequently a file named `hello_world.html` inside it
 
 ```cmd
@@ -957,14 +957,28 @@ urlpatterns = [
 Once the blog-specific URLs are in place, add them to the projects URL configuration using `include()`
 
 ```python
-from django.urls import path
+"""personal_portfolio URL Configuration
 
-from . import views
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/3.1/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import include, path
 
 urlpatterns = [
-    path("", views.blog_index, name="blog_index"),
-    path("<int:pk>/", views.blog_detail, name="blog_detail"),
-    path("<category>", views.blog_category, name="blog_category"),
+    path("admin/", admin.site.urls),
+    path("projects/", include("projects.urls")),
+    path("blog/", include("blog.urls")),
 ]
 ```
 
